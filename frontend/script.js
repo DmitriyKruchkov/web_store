@@ -1,6 +1,6 @@
 
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://192.168.1.4:8000/active_product', false);
+    xhr.open('GET', 'http://127.0.0.1:8000/active_product', false);
     xhr.send(null);
 
 
@@ -10,6 +10,9 @@
         const productId = product.is_active;
         const currentPrice = product.price;
 
+        document.getElementById('product-id').innerText = productId;
+
+
         const priceCurrent = document.getElementById('current-price');
         priceCurrent.innerText = currentPrice;
 
@@ -18,13 +21,13 @@
 
 
         // Подключаемся к WebSocket с использованием productId
-        const ws = new WebSocket(`ws://192.168.1.4:8000/ws/${productId}`);
+        const ws = new WebSocket(`ws://127.0.0.1:8000/ws/${productId}`);
 
         ws.onmessage = function(event) {
 
-            const data = event.data;
+            const data = JSON.parse(event.data);
             console.log(data);
-            document.getElementById('current-price').innerText = data.split(' ')[1];
+            document.getElementById('current-price').innerText = data.price;
 
         };
 
