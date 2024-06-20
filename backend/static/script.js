@@ -1,33 +1,22 @@
 
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://127.0.0.1:8000/active_product', false);
-    xhr.send(null);
-
-
-        const product = JSON.parse(xhr.responseText);
-
-
-        const productId = product.is_active;
-        const currentPrice = product.price;
-
-        document.getElementById('product-id').innerText = productId;
-
 
         const priceCurrent = document.getElementById('current-price');
-        priceCurrent.innerText = currentPrice;
-
         const priceInput = document.getElementById('new-price');
 
-
-
-        // Подключаемся к WebSocket с использованием productId
-        const ws = new WebSocket(`ws://127.0.0.1:8000/ws/${productId}`);
-
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+          const token = getCookie('access_token');
+          console.log(token);
+          const ws = new WebSocket(`ws://${window.location.host}/ws?access_token=${token}`);
         ws.onmessage = function(event) {
 
             const data = JSON.parse(event.data);
             console.log(data);
             document.getElementById('current-price').innerText = data.price;
+            document.getElementById('owner').innerText = data.address;
 
         };
 

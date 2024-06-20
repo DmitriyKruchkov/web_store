@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from sqlalchemy import select
+from starlette.responses import RedirectResponse
 
 from models import SessionLocal, Product
 
