@@ -9,16 +9,59 @@
             if (parts.length === 2) return parts.pop().split(';').shift();
     }
           const token = getCookie('access_token');
-          console.log(token);
           const ws = new WebSocket(`ws://${window.location.host}/ws?access_token=${token}`);
+            function updatePrice(newPrice) {
+        const priceElement = document.getElementById('current-price');
+
+
+        priceElement.textContent = newPrice;
+
+
+        priceElement.style.color = 'green';
+
+
+        setTimeout(() => {
+            priceElement.style.color = '';
+        }, 2000);
+    }
         ws.onmessage = function(event) {
 
             const data = JSON.parse(event.data);
             console.log(data);
-            document.getElementById('current-price').innerText = data.price;
             document.getElementById('owner').innerText = data.address;
+            updatePrice(data.price);
+
 
         };
+        ws.onclose = function(event) {
+            window.location.href = '/login';
+        };
+        function updateClock(timezone) {
+            const clockElement = document.getElementById('clock');
+            const now = new Date();
+            const options = {
+                timeZone: timezone,
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            };
+            const formatter = new Intl.DateTimeFormat([], options);
+            const formattedTime = formatter.format(now);
+            clockElement.textContent = formattedTime;
+        }
+
+        // Укажите часовой пояс
+        const timezone = 'Europe/Moscow';
+
+        // Обновление времени каждую секунду
+        setInterval(() => updateClock(timezone), 1000);
+
+        // Начальная установка времени при загрузке страницы
+        updateClock(timezone);
 
         function placeBid() {
             const input = document.getElementById("new-price");

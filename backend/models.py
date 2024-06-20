@@ -25,12 +25,12 @@ class Product(Base):
 class ConnectionManager:
     def __init__(self):
         self.active_connections: List[WebSocket] = []
-        self.last_sum = 1
-        self.last_owner = "-"
+        self.price = float(1.0)
+        self.owner = "-"
 
     async def connect(self, websocket: WebSocket):
         await websocket.accept()
-        await websocket.send_json(self.last_owner)
+        await websocket.send_json({"price": self.price, "address": self.owner, "access_token": websocket.cookies.get("access_token")})
         self.active_connections.append(websocket)
 
     def disconnect(self, websocket: WebSocket):
@@ -42,4 +42,3 @@ class ConnectionManager:
     async def broadcast(self, message):
         for connection in self.active_connections:
             await connection.send_json(message)
-        self.last = message

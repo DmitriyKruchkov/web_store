@@ -9,7 +9,7 @@ from starlette.staticfiles import StaticFiles
 from starlette.templating import Jinja2Templates
 from routers import rest_router
 from models import ConnectionManager, engine, Base, SessionLocal, Product
-from config import origins, AUTH_URL, CRYPTO_URL, LOGIN_URL
+from config import origins, AUTH_URL, CRYPTO_URL, LOGIN_URL, REGISTER_URL
 import logging
 
 app = FastAPI()
@@ -33,6 +33,22 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/login")
 async def login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request, "title": "WebSocket Example"})
+
+
+@app.get("/register")
+async def register(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request, "title": "WebSocket Example"})
+
+
+@app.post("/register")
+async def try_register(crypto: str = Form(...), tg_tag: str = Form(...), password: str = Form(...)):
+    async with aiohttp.ClientSession() as session:
+        async with session.post(REGISTER_URL,
+                                json={"crypto": crypto, "tg_tag": tg_tag, "password": password}) as response:
+
+            data = await response.json()
+            if data.get("status"):
+                return RedirectResponse("/login", status_code=303)
 
 
 @app.post("/login")
@@ -80,9 +96,12 @@ async def startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
+
 @app.exception_handler(404)
 async def not_found_redirect(request: Request, exc: HTTPException):
     return RedirectResponse("/login")
+
+
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket, access_token: Any = Depends(check_token)):
     if websocket.cookies.get("access_token"):
@@ -97,7 +116,7 @@ async def websocket_endpoint(websocket: WebSocket, access_token: Any = Depends(c
                         data = await websocket.receive_text()
                         new_price = float(data)
                         have_sum = (await check_balance(crypto)).get("balance")
-                        must_sum = round(manager.last_sum * (1 + new_price / 100), 2)
+                        must_sum = round(manager.price * (1 + new_price / 100), 2)
                         if have_sum > must_sum:
                             async with session.begin():
                                 stmt = select(Product).where(Product.id == 1)  # исправить
@@ -105,8 +124,8 @@ async def websocket_endpoint(websocket: WebSocket, access_token: Any = Depends(c
                                 product = result.scalar_one_or_none()
                                 if product:
                                     product.current_price = must_sum
-                                    manager.last_sum = must_sum
-                                    manager.last_owner = crypto
+                                    manager.price = must_sum
+                                    manager.owner = crypto
                                     await manager.broadcast({'price': product.current_price, "address": crypto})
                                     await session.commit()
 

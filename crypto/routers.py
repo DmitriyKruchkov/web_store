@@ -10,4 +10,5 @@ router = APIRouter()
 async def get_balance(wallet: Wallet):
     balance = await check_balance(wallet.address)
     return {"balance": balance}
-    # return {"balance": float(1000)}
+
+
