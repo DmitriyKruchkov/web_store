@@ -214,3 +214,18 @@ body {
 .submit-btn:hover {
     background-color: #333;
 }
+
+.progress-container {
+    width: 80%;
+    background-color: #ddd;
+    border-radius: 25px;
+    overflow: hidden;
+    height: 30px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 100%;
+    background-color: green;
+    transition: width 1s linear, background-color 1s linear;
+}

@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy import create_engine, Column, Integer, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from passlib.context import CryptContext
@@ -14,7 +14,7 @@ DATABASE_URL = "sqlite:///./test.db"
 caching = redis.Redis(host="192.168.1.9", port=6379)
 SECRET_KEY = "your_secret_key"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 5
+ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
