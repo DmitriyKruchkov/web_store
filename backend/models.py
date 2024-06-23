@@ -1,21 +1,15 @@
-import asyncio
 import datetime
 import math
 from typing import List
-
 import pytz
-import requests
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
 from starlette.websockets import WebSocket
-from core import caching
-from config import DATABASE_URL, TIME_INTERVAL
 
-Base = declarative_base()
-engine = create_async_engine(DATABASE_URL, echo=True)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine, class_=AsyncSession)
+from database import Base
+from core import caching
+from config import TIME_INTERVAL
+
+
 
 
 class Product(Base):
