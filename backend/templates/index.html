@@ -9,7 +9,7 @@
     <header class="header">
         <div class="logo">EthB2B</div>
         <nav class="nav">
-
+            <div class="login"><a href="/new_item">ADD</a></div>
         </nav>
         <div class="login"><a href="/login">UPDATE TOKEN</a></div>
     </header>
@@ -18,19 +18,15 @@
         <div class="item-info">
             <div class="item-header">
                 <h1 class="item-name"><span id="item-name">{{ item_name }}</span></h1>
-<!--                <h1 class="item-name"><span id="item-name">Toyota Supra</span></h1>-->
+
 
             </div>
-            <img src="{{ url_for('static', path=img_link) }}" alt="Item Image" class="item-image"><br/><br/>
+            <img src="{{ img_link }}" alt="Item Image" class="item-image"><br/><br/>
             <div class="item-price"><span id="current-price">{{ current_price }}</span>₽</div><br/><br/>
             <div class="owner">Rn owner: <span id="owner">{{ owner }}</span></div>
         </div>
         <div class="bid-controls">
             <div class="price-input">
-<!--                <p>Ending</p>-->
-<!--                <p>21.06.2024, 12:00</p>-->
-<!--                <p>Current Time:</p>-->
-<!--                <p><div id="clock"></div></p>-->
                 <input id="new-price" type="number" min="5" max="100" step="5" value="5" align="right" readonly>%
             </div>
             <div class="progress-container">
@@ -40,7 +36,7 @@
                 <button id="decrement" class="btn-black">-</button>
                 <button id="increment" class="btn-white">+</button>
             </div>
-            <button onclick="placeBid()" class="submit-btn">Buy</button>
+            <button onclick="placeBid()" class="submit-btn">place Bid</button>
         </div>
     </div>
      <audio id="audio-player" controls hidden>

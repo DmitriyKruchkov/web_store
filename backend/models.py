@@ -1,15 +1,17 @@
 import datetime
+import json
 import math
+from contextlib import asynccontextmanager
 from typing import List
 import pytz
+from aiobotocore.session import get_session
+from fastapi import UploadFile
 from sqlalchemy import Column, Integer, String, Float, Boolean, DateTime
 from starlette.websockets import WebSocket
 
 from database import Base
 from core import caching
 from config import TIME_INTERVAL
-
-
 
 
 class Product(Base):
@@ -60,3 +62,39 @@ class ConnectionManager:
     async def broadcast(self, message):
         for connection in self.active_connections:
             await connection.send_json(message)
+
+
+class S3Client:
+    def __init__(
+            self,
+            config: dict
+
+    ):
+        self.config = config
+        self.session = get_session()
+
+    @asynccontextmanager
+    async def get_client(self):
+        async with self.session.create_client("s3", **self.config) as client:
+            yield client
+
+    async def create_bucket(self, bucket_name):
+        async with self.get_client() as client:
+            buckets_responce = await client.list_buckets()
+            buckets_list = [bucket['Name'] for bucket in buckets_responce['Buckets']]
+            if bucket_name not in buckets_list:
+                await client.create_bucket(Bucket=bucket_name)
+
+    async def upload_file(self, file: UploadFile, bucket_name, acl: str = "public-read"):
+        await self.create_bucket(bucket_name)
+        object_name = file.filename.split("/")[-1]
+        async with self.get_client() as client:
+            file_data = await file.read()
+            await client.put_object(
+                Bucket=bucket_name,
+                Key=object_name,
+                Body=file_data,
+                ACL=acl
+            )
+        link_to_file = "/".join([self.config['endpoint_url'], bucket_name, object_name])
+        return link_to_file

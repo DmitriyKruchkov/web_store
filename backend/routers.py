@@ -1,11 +1,13 @@
-from fastapi import APIRouter
+from typing import Any
+
+from fastapi import APIRouter, UploadFile, Depends
 import aiohttp
 from fastapi import Form, HTTPException
 from sqlalchemy.future import select
 from starlette.requests import Request
 from starlette.responses import HTMLResponse, RedirectResponse
 from models import Product
-from utils import check_token
+from utils import check_token, add_new_item
 from config import LOGIN_URL, REGISTER_URL
 from core import caching, templates
 from database import SessionLocal
@@ -26,7 +28,7 @@ async def get_active_product():
 @rest_router.get("/login")
 async def login_get(request: Request):
     access_token = request.cookies.get("access_token")
-    if access_token and check_token(access_token):
+    if access_token and (await check_token(access_token)):
         redirect_response = RedirectResponse(url="/", status_code=303)
         redirect_response.set_cookie(key="access_token", value=access_token)
         active_id = caching.get("active:id").decode('utf-8')
@@ -80,4 +82,21 @@ async def read_root(request: Request):
         return RedirectResponse(url="/login")
 
 
+@rest_router.get("/new_item")
+async def new_item_get(request: Request):
+    return templates.TemplateResponse("new_item.html", {"request": request, "title": "WebSocket Example"})
 
+
+@rest_router.post("/new_item")
+async def new_item_post(
+        request: Request,
+        item_name: str = Form(...),
+        item_image: UploadFile = Form(...),
+        price: float = Form(...)
+        # access_token: Any = Depends(check_token)
+):
+    # if access_token:
+    await add_new_item(item_name, item_image, price)
+    return RedirectResponse(url="/", status_code=303)
+    # else:
+    #     return RedirectResponse(url="/login", status_code=303)

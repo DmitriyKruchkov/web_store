@@ -4,12 +4,15 @@ import threading
 
 import aiohttp
 import pytz
+from fastapi import UploadFile
 from sqlalchemy import select, not_, and_
 
 from database import SessionLocal
-from config import TIME_INTERVAL, CRYPTO_URL, AUTH_URL
+from config import TIME_INTERVAL, CRYPTO_URL, AUTH_URL, S3_CONFIG
 from core import caching
-from models import Product
+from models import Product, S3Client
+
+s3_client = S3Client(S3_CONFIG)
 
 
 async def check_token(access_token: str):
@@ -88,3 +91,17 @@ async def set_price_and_owner_to_active(id, price, owner):
                 caching.set("active:last_bid", str(current_time_moscow))
                 threading.Timer(TIME_INTERVAL, run_async_function,
                                 args=(accept_winner, id, current_time_moscow)).start()
+
+
+async def add_new_item(name: str, file: UploadFile, price: float):
+    product_link = await s3_client.upload_file(file, "lots")
+    new_product = Product(name=name,
+                          picture_path=product_link,
+                          current_price=price,
+                          is_sold=0,
+                          sell_counts=0,
+                          date_of_start=datetime.datetime.now())
+    async with SessionLocal() as session:
+        async with session.begin():
+            session.add(new_product)
+            await session.commit()

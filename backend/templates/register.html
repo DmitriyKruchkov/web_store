@@ -1,14 +1,29 @@
-{% extends "base.html" %}
-
-{% block content %}
-<h1>Registration</h1>
-<form id="registerForm" method="post" action="/register">
-    <label for="crypto">Wallet address:</label><br>
-    <input type="text" id="crypto" name="crypto" required><br>
-    <label for="tg_tag">Telegram Tag:</label><br>
-    <input type="text" id="tg_tag" name="tg_tag" required><br>
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" required><br>
-    <button type="submit">Register</button>
-</form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="static/register-styles.css">
+</head>
+<body>
+    <div class="registration-container">
+        <h2>Registration</h2>
+        <form  method="post" action="/register">
+            <div class="form-group">
+                <label for="crypto">Wallet address:</label>
+                <input type="text" id="crypto" name="crypto">
+            </div>
+            <div class="form-group">
+                <label for="tg_tag">Telegram Tag:</label>
+                <input type="text" id="tg_tag" name="tg_tag">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password">
+            </div>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</body>
+</html>
