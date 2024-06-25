@@ -7,14 +7,16 @@ from pydantic import BaseModel
 import jwt
 from datetime import datetime, timedelta
 import redis
+from config import REDIS_HOST, REDIS_PORT, DATABASE_URL, SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES, APP_HOST, \
+    APP_PORT
 
 from starlette.middleware.cors import CORSMiddleware
 
-DATABASE_URL = "sqlite:///./test.db"
-caching = redis.Redis(host="192.168.1.9", port=6379)
-SECRET_KEY = "your_secret_key"
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+
+caching = redis.Redis(host=REDIS_HOST, port=REDIS_PORT)
+
+
+
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -150,4 +152,4 @@ async def check_token(token: TokenCheck):
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="127.0.0.1", port=11000)
+    uvicorn.run(app, host=APP_HOST, port=APP_PORT)
