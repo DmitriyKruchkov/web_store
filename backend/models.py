@@ -2,6 +2,7 @@ import datetime
 import json
 import math
 from contextlib import asynccontextmanager
+from random import random
 from typing import List
 import pytz
 from aiobotocore.session import get_session
@@ -85,16 +86,27 @@ class S3Client:
             if bucket_name not in buckets_list:
                 await client.create_bucket(Bucket=bucket_name)
 
+    def create_unique_key(self, object_name, list_of_keys):
+        ext = object_name.split(".")[-1]
+        len_of_hash = 16
+        alphabet = "abcdefghijklmnopqrstuvwxyz0123456789"
+        new_name = ''.join(random.sample(alphabet, len_of_hash))
+        while new_name in list_of_keys:
+            new_name = ''.join(random.sample(alphabet, len_of_hash))
+        return '.'.join([new_name, ext])
+
     async def upload_file(self, file: UploadFile, bucket_name, acl: str = "public-read"):
         await self.create_bucket(bucket_name)
         object_name = file.filename.split("/")[-1]
         async with self.get_client() as client:
+            list_of_obj = [i["Key"] for i in client.list_objects_v2(Bucket=bucket_name).get('Contents', [])]
+            key = self.create_unique_key(object_name, list_of_obj)
             file_data = await file.read()
             await client.put_object(
                 Bucket=bucket_name,
-                Key=object_name,
+                Key=key,
                 Body=file_data,
                 ACL=acl
             )
-        link_to_file = "/".join([self.config['endpoint_url'], bucket_name, object_name])
+        link_to_file = "/".join([self.config['endpoint_url'], bucket_name, key])
         return link_to_file

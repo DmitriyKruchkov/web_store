@@ -22,7 +22,4 @@ async def startup():
 async def not_found_redirect(request: Request, exc: HTTPException):
     return RedirectResponse("/login")
 
-if __name__ == "__main__":
-    import uvicorn
 
-    uvicorn.run(app, host="127.0.0.1", port=8000)

@@ -8,7 +8,7 @@ from fastapi import UploadFile
 from sqlalchemy import select, not_, and_
 
 from database import SessionLocal
-from config import TIME_INTERVAL, CRYPTO_URL, AUTH_URL, S3_CONFIG
+from config import TIME_INTERVAL, S3_CONFIG, AUTH_HOST, AUTH_PORT, CRYPTO_HOST, CRYPTO_PORT
 from core import caching
 from models import Product, S3Client
 
@@ -17,14 +17,14 @@ s3_client = S3Client(S3_CONFIG)
 
 async def check_token(access_token: str):
     async with aiohttp.ClientSession() as session:
-        request = AUTH_URL
+        request = f"http://{AUTH_HOST}:{AUTH_PORT}/check_token"
         async with session.get(request, json={"access_token": access_token}) as response:
             return await response.json()
 
 
 async def check_balance(address: str):
     async with aiohttp.ClientSession() as session:
-        request = CRYPTO_URL
+        request = f"http://{CRYPTO_HOST}:{CRYPTO_PORT}/get_balance"
         async with session.get(request, json={"address": address}) as response:
             return await response.json()
 

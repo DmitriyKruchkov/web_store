@@ -12,11 +12,7 @@ from config import REDIS_HOST, REDIS_PORT, DATABASE_URL, SECRET_KEY, ALGORITHM, 
 
 from starlette.middleware.cors import CORSMiddleware
 
-
 caching = redis.Redis(host=REDIS_HOST, port=REDIS_PORT)
-
-
-
 
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -35,11 +31,16 @@ app.add_middleware(
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True)
-    crypto = Column(String, unique=True, index=True)
+    crypto = Column(String, unique=True)
     tg_tag = Column(String)
     hashed_password = Column(String)
-    access_token = Column(String)
 
+
+class Token(Base):
+    __tablename__ = "tokens"
+    id = Column(Integer, primary_key=True, index=True)
+    crypto = Column(String, unique=True)
+    access_token = Column(String)
 
 
 Base.metadata.create_all(bind=engine)
@@ -62,7 +63,6 @@ class Token(BaseModel):
     status: bool
 
 
-
 class TokenCheck(BaseModel):
     access_token: str
 
@@ -82,10 +82,7 @@ def verify_password(plain_password, hashed_password):
 
 def create_access_token(data: dict, expires_delta: timedelta | None = None):
     to_encode = data.copy()
-    if expires_delta:
-        expire = datetime.utcnow() + expires_delta
-    else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -104,6 +101,10 @@ def authenticate_user(db: Session, crypto: str, password: str):
     return user
 
 
+def get_token(db: Session, token: str):
+    return db.query(Token).filter(Token.access_token == token).first()
+
+
 def get_db():
     db = SessionLocal()
     try:
@@ -119,7 +120,9 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail="Wallet already registered")
     hashed_password = get_password_hash(user.password)
     access_token = create_access_token(data={"sub": user.crypto})
-    new_user = User(crypto=user.crypto, hashed_password=hashed_password, tg_tag=user.tg_tag, access_token=access_token)
+    new_user = User(crypto=user.crypto, hashed_password=hashed_password, tg_tag=user.tg_tag)
+    new_token = Token(crypto=user.crypto, access_token=access_token)
+    db.add(new_token)
     db.add(new_user)
     db.commit()
     db.refresh(new_user)
@@ -135,17 +138,22 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
             detail="Incorrect wallet or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
+
     access_token = db_user.access_token
     caching.set(access_token, user.crypto, ex=ACCESS_TOKEN_EXPIRE_MINUTES * 60)
     return {"access_token": access_token}
 
 
 @app.get("/check_token", response_model=TokenData)
-async def check_token(token: TokenCheck):
+async def check_token(token: TokenCheck, db: Session = Depends(get_db)):
     crypto_user = caching.get(token.access_token)
     if crypto_user:
+
         return {"access": True, "crypto": crypto_user}
     else:
+        token_from_db = get_token(db, token.access_token)
+        if token_from_db:
+            return {"access": True, "crypto": crypto_user}
         return {"access": False, "crypto": None}
 
 

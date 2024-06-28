@@ -7,8 +7,8 @@ from sqlalchemy.future import select
 from starlette.requests import Request
 from starlette.responses import HTMLResponse, RedirectResponse
 from models import Product
-from utils import check_token, add_new_item
-from config import LOGIN_URL, REGISTER_URL
+from utils import check_token, add_new_item, update_current_item
+from config import AUTH_HOST, AUTH_PORT
 from core import caching, templates
 from database import SessionLocal
 
@@ -32,6 +32,9 @@ async def login_get(request: Request):
         redirect_response = RedirectResponse(url="/", status_code=303)
         redirect_response.set_cookie(key="access_token", value=access_token)
         active_id = caching.get("active:id").decode('utf-8')
+        if not active_id:
+            await update_current_item()
+            active_id = caching.get("active:id").decode('utf-8')
         redirect_response.set_cookie(key="active_id", value=active_id)
         return redirect_response
     return templates.TemplateResponse("login.html", {"request": request, "title": "WebSocket Example"})
@@ -45,7 +48,8 @@ async def register_get(request: Request):
 @rest_router.post("/register")
 async def register_post(crypto: str = Form(...), tg_tag: str = Form(...), password: str = Form(...)):
     async with aiohttp.ClientSession() as session:
-        async with session.post(REGISTER_URL,
+        request = f"http://{AUTH_HOST}:{AUTH_PORT}/register"
+        async with session.post(request,
                                 json={"crypto": crypto, "tg_tag": tg_tag, "password": password}) as response:
             data = await response.json()
             if data.get("status"):
@@ -55,7 +59,8 @@ async def register_post(crypto: str = Form(...), tg_tag: str = Form(...), passwo
 @rest_router.post("/login")
 async def login_post(crypto: str = Form(...), password: str = Form(...)):
     async with aiohttp.ClientSession() as session:
-        async with session.post(LOGIN_URL, json={"crypto": crypto, "password": password}) as response:
+        request = f"http://{AUTH_HOST}:{AUTH_PORT}/login"
+        async with session.post(request, json={"crypto": crypto, "password": password}) as response:
             if response.status == 200:
                 data = await response.json()
                 access_token = data.get("access_token")
