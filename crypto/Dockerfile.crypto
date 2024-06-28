@@ -1,0 +1,7 @@
+FROM python:3.11-slim-bookworm
+
+COPY ./ /crypto
+WORKDIR /crypto
+EXPOSE 5000
+RUN pip install -r requirements.txt
+CMD ["python", "-m", "uvicorn", "main:app", "--host", "$APP_HOST", "--port", "$APP_PORT", "--workers", "$APP_WORKERS"]

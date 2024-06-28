@@ -1,0 +1,231 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f7f7f7;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.header {
+    background-color: #000;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header .logo {
+    font-size: 36px;
+}
+
+.nav {
+    display: flex;
+    gap: 15px;
+}
+
+.nav a {
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+}
+
+.login {
+    color: #fff;
+}
+
+.breadcrumb {
+    margin: 20px;
+    width: 100%;
+    max-width: 1200px;
+    box-sizing: border-box;
+}
+
+.breadcrumb a {
+    color: #007bff;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.breadcrumb span {
+    color: #555;
+}
+
+.auction-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 100px 0;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    width: 50%;
+    box-sizing: border-box;
+    min-height: 600px;
+}
+
+.item-info {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.item-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.item-name {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+    text-align: left;
+}
+
+.item-rating {
+    font-size: 18px;
+    text-align: left;
+}
+
+.item-price {
+    font-size: 36px;
+    font-weight: ;
+    margin: 10px 0;
+    color: #333;
+    text-align: left;
+}
+
+.owner {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 10px 0;
+    color: #333;
+    text-align: left;
+}
+
+.price-change {
+    color: green;
+    font-size: 18px;
+}
+
+.item-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    margin-top: 20px;
+}
+
+.bid-controls {
+    width: 300px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    margin-top: 50px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.price-input {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.price-input label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.price-input input {
+    width: 20%;
+    padding: 10px;
+    margin-left: 100px;
+    font-size: 18px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    align: center;
+    display: table-cell;
+}
+
+.bid-adjust {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.btn-black {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    width: 48%;
+    text-align: center;
+}
+
+.btn-black:hover {
+    background-color: #333;
+}
+
+.btn-white {
+    background-color: #FFF;
+    color: #000;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    width: 48%;
+    text-align: center;
+}
+
+.btn-white:hover {
+    background-color: #ccc;
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #333;
+}
+
+.progress-container {
+    width: 80%;
+    background-color: #ddd;
+    border-radius: 25px;
+    overflow: hidden;
+    height: 30px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 100%;
+    background-color: green;
+    transition: width 1s linear, background-color 1s linear;
+}

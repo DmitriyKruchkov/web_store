@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Object</title>
+    <link rel="stylesheet" href="static/new_item.css">
+</head>
+<body>
+    <div class="add-object-container">
+        <h2>Add Object</h2>
+        <form action="/new_item" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="item_name">Object Name:</label>
+                <input type="text" id="item_name" name="item_name">
+            </div>
+            <div class="form-group">
+                <img id="image-preview" src="#" alt="Image Preview" style="display:none;">
+                <label for="item_image">Upload Image:</label>
+                <input type="file" id="item_image" name="item_image" accept="image/*" onchange="previewImage(event)">
+            </div>
+            <div class="form-group">
+                <label for="price">Initial Price:</label>
+                <input type="text" id="price" name="price">
+            </div>
+            <button type="submit">Add Object</button>
+        </form>
+    </div>
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const output = document.getElementById('image-preview');
+                output.src = reader.result;
+                output.style.display = 'block';
+            }
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
+</body>
+</html>
