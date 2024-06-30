@@ -102,7 +102,7 @@ spec:
           - name: AUTH_PORT
             valueFrom:
               configMapKeyRef:
-                name: backend-configMap
+                name: backend-configmap
                 key: AUTH_PORT
 
           - name: TIME_INTERVAL

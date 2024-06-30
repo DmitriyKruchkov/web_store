@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: backend-configMap
+  name: backend-config-map
 data:
   TIME_INTERVAL: "10"
   AUTH_HOST: "web_store_auth"

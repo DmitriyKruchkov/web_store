@@ -35,7 +35,7 @@ spec:
           - name: DB_HOST
             valueFrom:
               configMapKeyRef:
-                name: auth-configMap
+                name: auth-configmap
                 key:  DB_HOST
 
           - name: DB_NAME
@@ -47,29 +47,29 @@ spec:
           - name: ACCESS_TOKEN_EXPIRE_MINUTES
             valueFrom:
               configMapKeyRef:
-                name: auth-configMap
+                name: auth-configmap
                 key: ACCESS_TOKEN_EXPIRE_MINUTES
 
           - name: APP_HOST
             valueFrom:
               configMapKeyRef:
-                name: auth-configMap
+                name: auth-configmap
                 key: APP_HOST
 
           - name: APP_PORT
             valueFrom:
               configMapKeyRef:
-                name: auth-configMap
+                name: auth-configmap
                 key: APP_PORT
 
           - name: REDIS_HOST
             valueFrom:
               configMapKeyRef:
-                name: auth-configMap
+                name: auth-configmap
                 key: REDIS_HOST
 
           - name: REDIS_PORT
             valueFrom:
               configMapKeyRef:
-                name: auth-configMap
+                name: auth-configmap
                 key: REDIS_PORT
