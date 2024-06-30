@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: deployment_backend_db
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: web_store_backend_db
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: web_store_backend_db
-          image: postgres:latest
+          image: postgres:12.19-alpine3.20
           ports:
             - containerPort: 5432
           env:

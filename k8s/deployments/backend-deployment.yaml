@@ -5,7 +5,7 @@ metadata:
   labels:
     app: web_store_backend
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: web_store_backend
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: web_store_backend
-        image: web_store_backend
+        image: hkvge777/web_store_backend
         ports:
         - containerPort: 8000
         env:

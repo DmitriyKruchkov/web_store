@@ -5,7 +5,7 @@ metadata:
   labels:
     app: web_store_crypto
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: web_store_crypto
@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: web_store_crypto
-        image: web_store_crypto
+        image: hkvge777/web_store_crypto
         ports:
         - containerPort: 5000
         env:
