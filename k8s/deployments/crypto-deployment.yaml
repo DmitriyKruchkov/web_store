@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   name: crypto-deployment
   labels:
-    app: web_store_crypto
+    app: web-store-crypto
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web_store_crypto
+      app: web-store-crypto
   template:
     metadata:
       labels:
-        app: web_store_crypto
+        app: web-store-crypto
     spec:
       containers:
-      - name: web_store_crypto
+      - name: web-store-crypto
         image: hkvge777/web_store_crypto
         ports:
         - containerPort: 5000
@@ -23,11 +23,11 @@ spec:
           - name: APP_HOST
             valueFrom:
               configMapKeyRef:
-                name: crypto_configMap
+                name: crypto-configMap
                 key: APP_HOST
 
           - name: APP_PORT
             valueFrom:
               configMapKeyRef:
-                name: crypto_configMap
+                name: crypto-configMap
                 key: APP_PORT

@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   name: auth-deployment
   labels:
-    app: web_store_auth
+    app: web-store-auth
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web_store_auth
+      app: web-store-auth
   template:
     metadata:
       labels:
-        app: web_store_auth
+        app: web-store-auth
     spec:
       containers:
-      - name: web_store_auth
+      - name: web-store-auth
         image: hkvge777/web_store_auth
         ports:
         - containerPort: 11000
@@ -23,53 +23,53 @@ spec:
           - name: DB_USER
             valueFrom:
               secretKeyRef:
-                name: auth_db_secrets
+                name: auth-db-secrets
                 key: DB_USER
 
           - name: DB_PASS
             valueFrom:
               secretKeyRef:
-                name: auth_db_secrets
+                name: auth-db-secrets
                 key: DB_PASS
 
           - name: DB_HOST
             valueFrom:
               configMapKeyRef:
-                name: auth_configMap
+                name: auth-configMap
                 key:  DB_HOST
 
           - name: DB_NAME
             valueFrom:
               secretKeyRef:
-                name: auth_db_secrets
+                name: auth-db-secrets
                 key: DB_NAME
 
           - name: ACCESS_TOKEN_EXPIRE_MINUTES
             valueFrom:
               configMapKeyRef:
-                name: auth_configMap
+                name: auth-configMap
                 key: ACCESS_TOKEN_EXPIRE_MINUTES
 
           - name: APP_HOST
             valueFrom:
               configMapKeyRef:
-                name: auth_configMap
+                name: auth-configMap
                 key: APP_HOST
 
           - name: APP_PORT
             valueFrom:
               configMapKeyRef:
-                name: auth_configMap
+                name: auth-configMap
                 key: APP_PORT
 
           - name: REDIS_HOST
             valueFrom:
               configMapKeyRef:
-                name: auth_configMap
+                name: auth-configMap
                 key: REDIS_HOST
 
           - name: REDIS_PORT
             valueFrom:
               configMapKeyRef:
-                name: auth_configMap
+                name: auth-configMap
                 key: REDIS_PORT

@@ -12,6 +12,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: web_store_backend
+            name: web-store-backend
             port:
               number: 80

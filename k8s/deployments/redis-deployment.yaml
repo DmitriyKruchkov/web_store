@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   name: redis-deployment
   labels:
-    app: web_store_cache
+    app: web-store-cache
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web_store_cache
+      app: web-store-cache
   template:
     metadata:
       labels:
-        app: web_store_cache
+        app: web-store-cache
     spec:
       containers:
-      - name: web_store_cache
+      - name: web-store-cache
         image: redis:7.4-rc2-alpine3.20
         ports:
         - containerPort: 6379

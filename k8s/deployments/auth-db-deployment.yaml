@@ -6,14 +6,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web_store_auth_db
+      app: web-store-auth-db
   template:
     metadata:
       labels:
-        app: web_store_auth_db
+        app: web-store-auth-db
     spec:
       containers:
-        - name: web_store_auth_db
+        - name: web-store-auth-db
           image: postgres:12.19-alpine3.20
           ports:
             - containerPort: 5432
@@ -21,19 +21,19 @@ spec:
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: auth_db_secrets
+                  name: auth-db-secrets
                   key: DB_NAME
 
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: auth_db_secrets
+                  name: auth-db-secrets
                   key: DB_USER
 
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: auth_db_secrets
+                  name: auth-db-secrets
                   key: DB_PASS
 
           volumeMounts:

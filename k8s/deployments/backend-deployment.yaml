@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   name: backend-deployment
   labels:
-    app: web_store_backend
+    app: web-store-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: web_store_backend
+      app: web-store-backend
   template:
     metadata:
       labels:
-        app: web_store_backend
+        app: web-store-backend
     spec:
       containers:
-      - name: web_store_backend
+      - name: web-store-backend
         image: hkvge777/web_store_backend
         ports:
         - containerPort: 8000
@@ -23,90 +23,90 @@ spec:
           - name: DB_USER
             valueFrom:
               secretKeyRef:
-                name: backend_db_secrets
+                name: backend-db-secrets
                 key: DB_USER
 
           - name: DB_PASS
             valueFrom:
               secretKeyRef:
-                name: backend_db_secrets
+                name: backend-db-secrets
                 key: DB_PASS
 
           - name: DB_HOST
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: DB_HOST
 
           - name: DB_NAME
             valueFrom:
               secretKeyRef:
-                name: backend_db_secrets
+                name: backend-db-secrets
                 key: DB_NAME
 
           - name: ACCESS_TOKEN_EXPIRE_MINUTES
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: ACCESS_TOKEN_EXPIRE_MINUTES
 
 
           - name: REDIS_HOST
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: REDIS_HOST
 
           - name: REDIS_PORT
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: REDIS_PORT
 
           - name: S3_HOST
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: S3_HOST
 
           - name: S3_PORT
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: S3_PORT
 
           - name: S3_BUCKET_NAME
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: S3_BUCKET_NAME
 
           - name: CRYPTO_HOST
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: CRYPTO_HOST
 
           - name: CRYPTO_PORT
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: CRYPTO_PORT
 
           - name: AUTH_HOST
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: AUTH_HOST
 
           - name: AUTH_PORT
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: AUTH_PORT
 
           - name: TIME_INTERVAL
             valueFrom:
               configMapKeyRef:
-                name: backend_configMap
+                name: backend-configMap
                 key: TIME_INTERVAL
