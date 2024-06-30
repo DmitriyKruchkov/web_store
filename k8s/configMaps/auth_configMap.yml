@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-config
+  name: auth_configMap
 data:
   ACCESS_TOKEN_EXPIRE_MINUTES: "60"
   APP_HOST: "0.0.0.0"

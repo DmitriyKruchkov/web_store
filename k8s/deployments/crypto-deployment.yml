@@ -19,3 +19,15 @@ spec:
         image: web_store_crypto
         ports:
         - containerPort: 5000
+        env:
+          - name: APP_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: crypto_configMap
+                key: APP_HOST
+
+          - name: APP_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: crypto_configMap
+                key: APP_PORT

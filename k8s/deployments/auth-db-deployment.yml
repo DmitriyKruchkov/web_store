@@ -21,32 +21,26 @@ spec:
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: db-secret-credentials
-                  key: POSTGRES_DB
+                  name: auth_db_secrets
+                  key: DB_NAME
 
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: db-secret-credentials
-                  key: POSTGRES_USER
+                  name: auth_db_secrets
+                  key: DB_USER
 
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: db-secret-credentials
-                  key: POSTGRES_PASSWORD
+                  name: auth_db_secrets
+                  key: DB_PASS
 
           volumeMounts:
             - mountPath: /var/lib/postgres/data
               name: db-data
 
-            - mountPath: /docker-entrypoint-initdb.d
-              name: postgresdb-loadsql
       volumes:
-        - name: postgresdb-loadsql
-          configMap:
-            name: database-cm
-
         - name: db-data
           persistentVolumeClaim:
-            claimName: pvc-db
+            claimName: auth-db-pvc

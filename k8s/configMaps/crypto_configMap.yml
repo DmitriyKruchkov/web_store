@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: app-config
+  name: crypto_configMap
 data:
   APP_HOST: "0.0.0.0"
   APP_PORT: "5000"
