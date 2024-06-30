@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-db
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web_store_auth_db
+  template:
+    metadata:
+      labels:
+        app: web_store_auth_db
+    spec:
+      containers:
+        - name: web_store_auth_db
+          image: postgres:latest
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: auth_db_secrets
+                  key: DB_NAME
+
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: auth_db_secrets
+                  key: DB_USER
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: auth_db_secrets
+                  key: DB_PASS
+
+          volumeMounts:
+            - mountPath: /var/lib/postgres/data
+              name: db-data
+
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: auth-db-pvc

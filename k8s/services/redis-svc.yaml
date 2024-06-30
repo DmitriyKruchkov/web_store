@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web_store_cache
+spec:
+  selector:
+    app: web_store_cache
+  ports:
+  - name: tcp
+    port: 6379
+    targetPort: 6379
