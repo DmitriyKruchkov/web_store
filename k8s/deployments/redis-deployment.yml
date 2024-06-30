@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  labels:
+    app: web_store_cache
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web_store_cache
+  template:
+    metadata:
+      labels:
+        app: web_store_cache
+    spec:
+      containers:
+      - name: web_store_cache
+        image: redis:7.4-rc2-alpine3.20
+        ports:
+        - containerPort: 6379

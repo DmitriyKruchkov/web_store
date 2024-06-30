@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-deployment
+  labels:
+    app: web_store_auth
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web_store_auth
+  template:
+    metadata:
+      labels:
+        app: web_store_auth
+    spec:
+      containers:
+      - name: web_store_auth
+        image: web_store_auth
+        ports:
+        - containerPort: 11000
+        env:
+

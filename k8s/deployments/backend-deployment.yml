@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: web_store_backend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web_store_backend
+  template:
+    metadata:
+      labels:
+        app: web_store_backend
+    spec:
+      containers:
+      - name: web_store_backend
+        image: web_store_backend
+        ports:
+        - containerPort: 8000
