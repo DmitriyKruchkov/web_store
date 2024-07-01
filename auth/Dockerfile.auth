@@ -4,4 +4,4 @@ COPY ./ /auth_app
 WORKDIR /auth_app
 EXPOSE 11000
 RUN pip install -r requirements.txt
-CMD ["python", "-m", "uvicorn", "main:app", "--host", "$APP_HOST", "--port", "$APP_PORT", "--workers", "$APP_WORKERS"]
+CMD ["sh", "-c", "python -m uvicorn main:app --host $APP_HOST --port $APP_PORT"]

@@ -35,7 +35,7 @@ spec:
           - name: DB_HOST
             valueFrom:
               configMapKeyRef:
-                name: backend-config-map
+                name: backend-configmap
                 key: DB_HOST
 
           - name: DB_NAME
