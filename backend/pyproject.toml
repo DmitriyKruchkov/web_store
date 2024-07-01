@@ -13,6 +13,7 @@ fastapi = "^0.111.0"
 SQLAlchemy = "^2.0.31"
 aiobotocore = "^2.13.1"
 pytz = "^2024.1"
+asyncpg = "^0.29.0"
 
 
 [build-system]
