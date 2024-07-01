@@ -21,6 +21,8 @@ FROM python:3.11-slim-bookworm
 ENV VIRTUAL_ENV=/crypto/.venv \
     PATH="/crypto/.venv/bin:$PATH"
 
+WORKDIR /crypto
+
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY ./ /crypto

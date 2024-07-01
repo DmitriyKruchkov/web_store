@@ -20,6 +20,8 @@ FROM python:3.11-slim-bookworm
 ENV VIRTUAL_ENV=/auth_app/.venv \
     PATH="/auth_app/.venv/bin:$PATH"
 
+WORKDIR /auth_app
+
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY ./ /auth_app

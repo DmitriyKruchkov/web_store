@@ -20,6 +20,8 @@ FROM python:3.11-slim-bookworm
 ENV VIRTUAL_ENV=/backend/.venv \
     PATH="/backend/.venv/bin:$PATH"
 
+WORKDIR /backend
+
 COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY ./ /backend
