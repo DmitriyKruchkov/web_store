@@ -44,13 +44,6 @@ spec:
                 name: backend-db-secrets
                 key: DB_NAME
 
-          - name: ACCESS_TOKEN_EXPIRE_MINUTES
-            valueFrom:
-              configMapKeyRef:
-                name: backend-configmap
-                key: ACCESS_TOKEN_EXPIRE_MINUTES
-
-
           - name: REDIS_HOST
             valueFrom:
               configMapKeyRef:

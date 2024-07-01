@@ -38,6 +38,12 @@ spec:
                 name: auth-configmap
                 key:  DB_HOST
 
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: auth-configmap
+                key: DB_PORT
+
           - name: DB_NAME
             valueFrom:
               secretKeyRef:
