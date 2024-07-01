@@ -26,4 +26,4 @@ COPY ./ /auth_app
 
 EXPOSE 11000
 
-ENTRYPOINT ["sh", "-c", "python -m uvicorn main:app --host $APP_HOST --port $APP_PORT"]
+CMD ["sh", "-c", "python -m uvicorn main:app --host $APP_HOST --port $APP_PORT"]
