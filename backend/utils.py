@@ -59,12 +59,12 @@ async def update_current_item(startup=False):
             result = await session.execute(stmt)
 
             current_item = result.scalars().first()
-
-            caching.set("active:id", str(current_item.id))
-            caching.set("active:name", str(current_item.name))
-            caching.set("active:img_link", str(current_item.picture_path))
-            caching.set("active:price", str(current_item.current_price))
-            caching.set("active:owner", str(current_item.owner))
+            if current_item:
+                caching.set("active:id", str(current_item.id))
+                caching.set("active:name", str(current_item.name))
+                caching.set("active:img_link", str(current_item.picture_path))
+                caching.set("active:price", str(current_item.current_price))
+                caching.set("active:owner", str(current_item.owner))
 
 
 def run_async_function(func, *args):
