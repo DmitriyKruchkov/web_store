@@ -95,12 +95,13 @@ async def set_price_and_owner_to_active(id, price, owner):
 
 async def add_new_item(name: str, file: UploadFile, price: float):
     product_link = await s3_client.upload_file(file, "lots")
+    moscow_tz = pytz.timezone('Europe/Moscow')
     new_product = Product(name=name,
                           picture_path=product_link,
                           current_price=price,
                           is_sold=0,
                           sell_counts=0,
-                          date_of_start=datetime.datetime.now())
+                          date_of_start=datetime.datetime.now(moscow_tz))
     async with SessionLocal() as session:
         async with session.begin():
             session.add(new_product)
