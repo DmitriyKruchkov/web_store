@@ -49,7 +49,7 @@ async def update_current_item(startup=False):
     async with (SessionLocal() as session):
         async with session.begin():
             moscow_tz = pytz.timezone('Europe/Moscow')
-            current_time_moscow = datetime.datetime.now(moscow_tz)
+            current_time_moscow = datetime.datetime.now(moscow_tz).replace(tzinfo=None)
             stmt = select(Product).where(
                 and_(
                     Product.date_of_start < current_time_moscow,
@@ -87,7 +87,7 @@ async def set_price_and_owner_to_active(id, price, owner):
                 caching.set("active:price", price)
                 caching.set("active:owner", owner)
                 moscow_tz = pytz.timezone('Europe/Moscow')
-                current_time_moscow = datetime.datetime.now(moscow_tz)
+                current_time_moscow = datetime.datetime.now(moscow_tz).replace(tzinfo=None)
                 caching.set("active:last_bid", str(current_time_moscow))
                 threading.Timer(TIME_INTERVAL, run_async_function,
                                 args=(accept_winner, id, current_time_moscow)).start()
@@ -101,7 +101,7 @@ async def add_new_item(name: str, file: UploadFile, price: float):
                           current_price=price,
                           is_sold=0,
                           sell_counts=0,
-                          date_of_start=datetime.datetime.now(moscow_tz))
+                          date_of_start=datetime.datetime.now(moscow_tz)).replace(tzinfo=None)
     async with SessionLocal() as session:
         async with session.begin():
             session.add(new_product)
