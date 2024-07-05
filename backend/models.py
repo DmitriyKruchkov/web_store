@@ -99,7 +99,8 @@ class S3Client:
         await self.create_bucket(bucket_name)
         object_name = file.filename.split("/")[-1]
         async with self.get_client() as client:
-            list_of_obj = [i["Key"] for i in client.list_objects_v2(Bucket=bucket_name).get('Contents', [])]
+            list_objects_response = await client.list_objects_v2(Bucket=bucket_name)
+            list_of_obj = [i["Key"] for i in list_objects_response.get('Contents', [])]
             key = self.create_unique_key(object_name, list_of_obj)
             file_data = await file.read()
             await client.put_object(
