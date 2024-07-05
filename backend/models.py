@@ -2,7 +2,7 @@ import datetime
 import json
 import math
 from contextlib import asynccontextmanager
-from random import random
+import random
 from typing import List
 import pytz
 from aiobotocore.session import get_session
