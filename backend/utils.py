@@ -107,7 +107,7 @@ async def add_new_item(name: str, file: UploadFile, price: float):
                           current_price=price,
                           is_sold=0,
                           sell_counts=0,
-                          date_of_start=datetime.datetime.now(moscow_tz)).replace(tzinfo=None)
+                          date_of_start=datetime.datetime.now(moscow_tz).replace(tzinfo=None))
     async with SessionLocal() as session:
         async with session.begin():
             session.add(new_product)
