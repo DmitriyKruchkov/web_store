@@ -9,10 +9,12 @@ from sqlalchemy import select, not_, and_
 
 from database import SessionLocal
 from config import TIME_INTERVAL, S3_CONFIG, AUTH_HOST, AUTH_PORT, CRYPTO_HOST, CRYPTO_PORT
-from core import caching
+from core import caching, logger
 from models import Product, S3Client
 
+logger.info("S3 connecting")
 s3_client = S3Client(S3_CONFIG)
+logger.info("S3 connected")
 
 
 async def check_token(access_token: str):
