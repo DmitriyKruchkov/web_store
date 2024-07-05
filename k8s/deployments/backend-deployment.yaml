@@ -20,6 +20,18 @@ spec:
         ports:
         - containerPort: 8000
         env:
+          - name: APP_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: APP_HOST
+
+          - name: APP_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: APP_PORT
+
           - name: DB_USER
             valueFrom:
               secretKeyRef:
