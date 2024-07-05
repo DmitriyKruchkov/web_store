@@ -67,7 +67,11 @@ async def login_post(crypto: str = Form(...), password: str = Form(...)):
                 if access_token:
                     redirect_response = RedirectResponse(url="/", status_code=303)
                     redirect_response.set_cookie(key="access_token", value=access_token)
-                    active_id = caching.get("active:id").decode('utf-8')
+                    try:
+                        active_id = caching.get("active:id").decode('utf-8')
+                    except AttributeError:
+                        await update_current_item()
+                        active_id = caching.get("active:id").decode('utf-8')
                     redirect_response.set_cookie(key="active_id", value=active_id)
                     return redirect_response
                 else:
