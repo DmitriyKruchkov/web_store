@@ -49,29 +49,28 @@ async def accept_winner(id, time):
 
 
 async def update_current_item(startup=False):
-    if not startup:
-        async with (SessionLocal() as session):
-            logger.info("Session connected")
-            async with session.begin():
-                moscow_tz = pytz.timezone('Europe/Moscow')
-                current_time_moscow = datetime.datetime.now(moscow_tz).replace(tzinfo=None)
-                stmt = select(Product).where(
-                    and_(
-                        Product.date_of_start < current_time_moscow,
-                        not_(Product.is_sold)
-                    )).order_by(Product.sell_counts)
+    async with (SessionLocal() as session):
+        logger.info("Session connected")
+        async with session.begin():
+            moscow_tz = pytz.timezone('Europe/Moscow')
+            current_time_moscow = datetime.datetime.now(moscow_tz).replace(tzinfo=None)
+            stmt = select(Product).where(
+                and_(
+                    Product.date_of_start < current_time_moscow,
+                    not_(Product.is_sold)
+                )).order_by(Product.sell_counts)
 
-                result = await session.execute(stmt)
+            result = await session.execute(stmt)
 
-                current_item = result.scalars().first()
-                if current_item:
-                    logger.info("Cache creation started")
-                    caching.set("active:id", str(current_item.id))
-                    caching.set("active:name", str(current_item.name))
-                    caching.set("active:img_link", str(current_item.picture_path))
-                    caching.set("active:price", str(current_item.current_price))
-                    caching.set("active:owner", str(current_item.owner))
-                    logger.info("Cache created")
+            current_item = result.scalars().first()
+            if current_item:
+                logger.info("Cache creation started")
+                caching.set("active:id", str(current_item.id))
+                caching.set("active:name", str(current_item.name))
+                caching.set("active:img_link", str(current_item.picture_path))
+                caching.set("active:price", str(current_item.current_price))
+                caching.set("active:owner", str(current_item.owner))
+                logger.info("Cache created")
 
 
 def run_async_function(func, *args):
