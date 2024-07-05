@@ -13,10 +13,10 @@ app.include_router(rest_router)
 app.include_router(ws_router)
 @app.on_event("startup")
 async def startup():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    # async with engine.begin() as conn:
+    #     await conn.run_sync(Base.metadata.create_all)
     # await update_current_item(startup=True)
-
+    pass
 
 @app.exception_handler(404)
 async def not_found_redirect(request: Request, exc: HTTPException):
