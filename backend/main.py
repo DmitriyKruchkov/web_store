@@ -6,7 +6,7 @@ from utils import update_current_item
 from ws_router import ws_router
 from routers import rest_router
 
-from core import app
+from core import app, logger
 
 
 app.include_router(rest_router)
