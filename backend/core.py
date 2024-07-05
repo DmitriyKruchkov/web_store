@@ -24,6 +24,7 @@ app.add_middleware(
 templates = Jinja2Templates(directory="templates")
 app.mount("/static", StaticFiles(directory="static"), name="static")
 logger.info("Redis connecting")
+logger.info(f"{REDIS_HOST, REDIS_PORT}")
 caching = redis.Redis(REDIS_HOST, REDIS_PORT)
 logger.info("Redis connected")
 logger.info(f"addr db:  {DATABASE_URL}")

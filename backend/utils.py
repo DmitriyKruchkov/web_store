@@ -13,6 +13,7 @@ from core import caching, logger
 from models import Product, S3Client
 
 logger.info("S3 connecting")
+logger.info(f"{S3_CONFIG}")
 s3_client = S3Client(S3_CONFIG)
 logger.info("S3 connected")
 
