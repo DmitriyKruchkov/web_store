@@ -15,7 +15,7 @@ app.include_router(ws_router)
 async def startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    await update_current_item(startup=True)
+    # await update_current_item(startup=True)
 
 
 @app.exception_handler(404)
