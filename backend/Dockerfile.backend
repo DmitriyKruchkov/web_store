@@ -27,5 +27,6 @@ COPY --from=builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 COPY ./ /backend
 
 EXPOSE 8000
+CMD ["sh", "-c", "env"]
 
 CMD ["sh", "-c", "python -m uvicorn main:app --host $APP_HOST --port $APP_PORT"]
