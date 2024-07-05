@@ -59,7 +59,7 @@ class UserLogin(BaseModel):
     password: str
 
 
-class Token(BaseModel):
+class Status(BaseModel):
     status: bool
 
 
@@ -113,7 +113,7 @@ def get_db():
         db.close()
 
 
-@app.post("/register", response_model=Token)
+@app.post("/register", response_model=Status)
 def register(user: UserCreate, db: Session = Depends(get_db)):
     db_user = get_user(db, crypto=user.crypto)
     if db_user:
