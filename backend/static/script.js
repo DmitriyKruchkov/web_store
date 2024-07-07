@@ -1,14 +1,15 @@
 
         const progressBar = document.getElementById('progress-bar');
         let width = 100; // Initial width in percentage
-        const interval = 11000; // Time interval in milliseconds
+        const interval = 10000; // Time interval in milliseconds
         const priceCurrent = document.getElementById('current-price');
         const priceInput = document.getElementById('new-price');
         function updateProgressBar() {
             if (width > 0) {
-                width -= 1;
-                progressBar.style.width = width + '%';
 
+
+                progressBar.style.width = width + '%';
+                width -= 1;
                 if (width > 50) {
                     progressBar.style.backgroundColor = 'green';
                 } else if (width > 25) {
@@ -52,7 +53,6 @@
             const data = JSON.parse(event.data);
             console.log('getMessage');
             const active_id = getCookie('active_id');
-
             width = data.progress_bar;
             console.log(width);
             const audio = document.getElementById('audio-player');

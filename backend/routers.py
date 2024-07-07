@@ -54,7 +54,10 @@ async def login_post(crypto: str = Form(...), password: str = Form(...)):
                     redirect_response = RedirectResponse(url="/", status_code=303)
                     redirect_response.set_cookie(key="access_token", value=access_token)
                     item = await refresh_item()
-                    redirect_response.set_cookie(key="active_id", value=item["active:id"])
+                    if item:
+                        redirect_response.set_cookie(key="active_id", value=item["active:id"])
+                    else:
+                        redirect_response = RedirectResponse(url="/stopped", status_code=303)
                     return redirect_response
                 else:
                     raise HTTPException(status_code=401, detail="Invalid token response")

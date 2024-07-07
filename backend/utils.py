@@ -72,7 +72,7 @@ async def refresh_item(update=False, price=0, owner=''):
 
             result = await session.execute(stmt)
             current_item = result.scalars().first()
-            if update:
+            if update and current_item:
                 current_item.owner = owner
                 current_item.current_price = price
             if current_item:
