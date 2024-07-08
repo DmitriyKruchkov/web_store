@@ -59,7 +59,7 @@ class UserLogin(BaseModel):
     password: str
 
 
-class Token(BaseModel):
+class Status(BaseModel):
     status: bool
 
 
@@ -113,7 +113,7 @@ def get_db():
         db.close()
 
 
-@app.post("/register", response_model=Token)
+@app.post("/register", response_model=Status)
 def register(user: UserCreate, db: Session = Depends(get_db)):
     db_user = get_user(db, crypto=user.crypto)
     if db_user:
@@ -139,7 +139,7 @@ def login(user: UserLogin, db: Session = Depends(get_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    access_token = db_user.access_token
+    access_token = db.query(Token).filter(Token.crypto == user.crypto).first().access_token
     caching.set(access_token, user.crypto, ex=ACCESS_TOKEN_EXPIRE_MINUTES * 60)
     return {"access_token": access_token}
 

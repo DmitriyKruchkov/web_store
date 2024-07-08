@@ -1,39 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: deployment_backend_db
+  name: deployment-backend-db
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
-      app: web_store_backend_db
+      app: web-store-backend-db
   template:
     metadata:
       labels:
-        app: web_store_backend_db
+        app: web-store-backend-db
     spec:
       containers:
-        - name: web_store_backend_db
-          image: postgres:latest
+        - name: web-store-backend-db
+          image: postgres:12.19-alpine3.20
           ports:
             - containerPort: 5432
           env:
             - name: POSTGRES_DB
               valueFrom:
                 secretKeyRef:
-                  name: backend_db_secrets
+                  name: backend-db-secrets
                   key: DB_NAME
 
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
-                  name: backend_db_secrets
+                  name: backend-db-secrets
                   key: DB_USER
 
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: backend_db_secrets
+                  name: backend-db-secrets
                   key: DB_PASS
 
           volumeMounts:

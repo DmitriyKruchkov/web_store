@@ -1,14 +1,15 @@
 
         const progressBar = document.getElementById('progress-bar');
         let width = 100; // Initial width in percentage
-        const interval = 11000; // Time interval in milliseconds
+        const interval = 10000; // Time interval in milliseconds
         const priceCurrent = document.getElementById('current-price');
         const priceInput = document.getElementById('new-price');
         function updateProgressBar() {
             if (width > 0) {
-                width -= 1;
-                progressBar.style.width = width + '%';
 
+
+                progressBar.style.width = width + '%';
+                width -= 1;
                 if (width > 50) {
                     progressBar.style.backgroundColor = 'green';
                 } else if (width > 25) {
@@ -31,7 +32,7 @@
             if (parts.length === 2) return parts.pop().split(';').shift();
     }
           const access_token = getCookie('access_token');
-          const active_id = getCookie('active_id');
+
 
           const ws = new WebSocket(`ws://${window.location.host}/ws?access_token=${access_token}`);
             function updatePrice(newPrice) {
@@ -52,25 +53,21 @@
             const data = JSON.parse(event.data);
             console.log('getMessage');
             const active_id = getCookie('active_id');
-            if (String(data.active_id) == String(active_id)) {
-                width = data.progress_bar;
-                console.log(width);
-                const audio = document.getElementById('audio-player');
-                audio.volume = 0.3;
-                audio.pause()
-                audio.play().catch(error => {
-                    console.error('Error attempting to play audio:', error);
-                });
-                document.getElementById('owner').innerText = data.address;
-                updatePrice(data.price);
-            } else {
-                console.log("update");
-                window.location.href = "/login";
-            }
+            width = data.progress_bar;
+            console.log(width);
+            const audio = document.getElementById('audio-player');
+            audio.volume = 0.3;
+            audio.pause()
+            audio.play().catch(error => {
+                console.error('Error attempting to play audio:', error);
+            });
+            document.getElementById('owner').innerText = data.address;
+            updatePrice(data.price);
+
         };
         ws.onclose = function(event) {
             console.log('closed');
-            window.location.href = '/login';
+            window.location.href = '/stopped';
         };
         function updateClock(timezone) {
             const clockElement = document.getElementById('clock');
