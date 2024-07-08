@@ -10,11 +10,10 @@ def usdt_to_rub(usdt):
 
 
 async def check_balance(wallet_addr):
-    # binance_testnet_rpc_url = "https://ethereum-rpc.publicnode.com"
-    # web3 = Web3(Web3.HTTPProvider(binance_testnet_rpc_url))
-    # if web3.is_connected():
-    #     checksum_address = web3.to_checksum_address(wallet_addr)
-    #     wei_balance = web3.eth.get_balance(checksum_address)
-    #     eth_balance = web3.from_wei(wei_balance, "ether")
-    #     return usdt_to_rub(round(ether_to_usdt(float(eth_balance)), 4))
-    return 10000000000000000000000
+    binance_testnet_rpc_url = "https://ethereum-rpc.publicnode.com"
+    web3 = Web3(Web3.HTTPProvider(binance_testnet_rpc_url))
+    if web3.is_connected():
+        checksum_address = web3.to_checksum_address(wallet_addr)
+        wei_balance = web3.eth.get_balance(checksum_address)
+        eth_balance = web3.from_wei(wei_balance, "ether")
+        return usdt_to_rub(round(ether_to_usdt(float(eth_balance)), 4))
