@@ -12,21 +12,13 @@ pipeline {
   agent any
 
   stages {
-
-    stage('Checkout Source') {
-      steps {
-        git 'https://github.com/DmitriyKruchkov/web_store.git'
-      }
-    }
-
     stage('Build image') {
       steps{
         script {
-          dockerAuthImage = docker.build dockerAuthImageName
-          dockerBackendImage = docker.build dockerBackendImageName
-          dockerCryptoImage = docker.build dockerCryptoImageName
-
-        }
+            dockerAuthImage = docker.build(dockerAuthImageName, "-f auth/Dockerfile.auth .")
+            dockerBackendImage = docker.build(dockerBackendImageName, "-f backend/Dockerfile.backend .")
+            dockerCryptoImage = docker.build(dockerCryptoImageName, "-f crypto/Dockerfile.crypto .")
+            }
       }
     }
 
