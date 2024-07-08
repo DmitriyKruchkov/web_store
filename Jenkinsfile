@@ -1,6 +1,7 @@
 pipeline {
 
   environment {
+    KUBECONFIG = credentials('kubeconfig')
     dockerAuthImageName = "hkvge777/web_store_auth"
     dockerBackendImageName = "hkvge777/web_store_backend"
     dockerCryptoImageName = "hkvge777/web_store_crypto"
@@ -49,7 +50,9 @@ pipeline {
                     def manifestDir = 'k8s'
                     def manifests = findFiles(glob: "${manifestDir}/**/*.yaml")
                     def manifestPaths = manifests.collect { it.path }
-                    kubernetesDeploy(configs: manifestPaths)
+                    manifestPaths.each { manifest ->
+                        sh "kubectl apply -f ${manifest}"
+                    }
                 }
             }
         }
