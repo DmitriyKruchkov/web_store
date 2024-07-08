@@ -15,10 +15,16 @@ pipeline {
     stage('Build image') {
       steps{
         script {
-            dockerAuthImage = docker.build(dockerAuthImageName, "-f auth/Dockerfile.auth .")
-            dockerBackendImage = docker.build(dockerBackendImageName, "-f backend/Dockerfile.backend .")
-            dockerCryptoImage = docker.build(dockerCryptoImageName, "-f crypto/Dockerfile.crypto .")
+            dir('auth') {
+                dockerAuthImage = docker.build(dockerAuthImageName, "-f Dockerfile.auth .")
             }
+            dir('backend') {
+                dockerBackendImage = docker.build(dockerBackendImageName, "-f Dockerfile.backend .")
+            }
+            dir('crypto') {
+                dockerCryptoImage = docker.build(dockerCryptoImageName, "-f Dockerfile.crypto .")
+            }
+        }
       }
     }
 
