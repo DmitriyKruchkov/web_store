@@ -1,6 +1,7 @@
 pipeline {
 
   environment {
+    KUBECONFIG = credentials('kubeconfig')
     dockerAuthImageName = "hkvge777/web_store_auth"
     dockerBackendImageName = "hkvge777/web_store_backend"
     dockerCryptoImageName = "hkvge777/web_store_crypto"
