@@ -1,0 +1,5 @@
+---
+# handlers file for k3d
+- name: apt update
+  apt:
+    update_cache: yes

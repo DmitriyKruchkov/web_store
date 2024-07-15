@@ -1,0 +1,15 @@
+---
+docker_requirements:
+  - ca-certificates
+  - curl
+
+docker_gpg_url: "https://download.docker.com/linux/debian/gpg"
+
+docker_packages:
+  - docker-ce
+  - docker-ce-cli
+  - containerd.io
+  - docker-buildx-plugin
+  - docker-compose-plugin
+
+k3d_install_script_url: "https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh"
