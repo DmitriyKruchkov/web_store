@@ -1,0 +1,32 @@
+---
+# tasks file for jenkins
+- name: Installing Java
+  apt:
+    name:
+      - fontconfig
+      - openjdk-17-jre
+    update_cache: yes
+
+- name: Create the keyrings directory
+  file:
+    path: /usr/share/keyrings/
+    state: directory
+    mode: '0755'
+
+- name: Download Jenkins GPG key
+  get_url:
+    url: "{{ jenkins_gpg_url }}"
+    dest: /usr/share/keyrings/jenkins-keyring.asc
+    mode: '0644'
+
+- name: Add Jenkins repository
+  copy:
+    content: |
+      deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/
+    dest: /etc/apt/sources.list.d/jenkins.list
+
+- name: Install Jenkins packages
+  apt:
+    name: jenkins
+    state: present
+    update_cache: yes

@@ -1,0 +1,3 @@
+---
+# vars file for jenkins
+jenkins_gpg_url: "https://pkg.jenkins.io/debian/jenkins.io-2023.key"
