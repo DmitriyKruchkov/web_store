@@ -33,7 +33,7 @@
 
 - name: Download stable.txt
   get_url:
-    url: kubectl_stable_version_url
+    url: "{{ kubectl_stable_version_url }}"
     dest: /tmp/stable.txt
     mode: '0644'
 
