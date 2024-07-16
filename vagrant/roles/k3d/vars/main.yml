@@ -13,3 +13,5 @@ docker_packages:
   - docker-compose-plugin
 
 k3d_install_script_url: "https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh"
+
+kubectl_stable_version_url: "https://dl.k8s.io/release/stable.txt"
