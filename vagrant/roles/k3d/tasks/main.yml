@@ -1,15 +1,11 @@
 ---
 # tasks file for k3d
 
-
-- name: Update apt cache
-  apt:
-    update_cache: yes
-
 - name: Install required packages
   apt:
     name: "{{ docker_requirements }}"
     state: present
+    update_cache: yes
 
 - name: Create the apt keyrings directory
   file:
@@ -30,13 +26,12 @@
     content: |
       deb [arch={{ architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
     dest: /etc/apt/sources.list.d/docker.list
-  notify: apt update
-
 
 - name: Install Docker packages
   apt:
     name: "{{ docker_packages }}"
     state: present
+    update_cache: yes
 
 - name: Ensure curl is installed
   apt:
