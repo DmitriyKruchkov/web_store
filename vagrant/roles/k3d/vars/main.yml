@@ -4,7 +4,7 @@ docker_requirements:
   - curl
 
 docker_gpg_url: "https://download.docker.com/linux/debian/gpg"
-
+architecture: "amd64"
 docker_packages:
   - docker-ce
   - docker-ce-cli

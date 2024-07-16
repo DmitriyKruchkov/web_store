@@ -24,11 +24,11 @@
     mode: '0644'
 - name: debug
   debug:
-    msg: "{{ ansible_architecture }}, {{ ansible_distribution_release }}"
+    msg: "{{ architecture }}, {{ ansible_distribution_release }}"
 - name: Add Docker repository
   copy:
     content: |
-      deb [arch={{ ansible_architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
+      deb [arch={{ architecture }} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/debian {{ ansible_distribution_release }} stable
     dest: /etc/apt/sources.list.d/docker.list
   notify: apt update
 
