@@ -22,7 +22,7 @@
 - name: Add Jenkins repository
   copy:
     content: |
-      deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" https://pkg.jenkins.io/debian binary/
+      deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" https://pkg.jenkins.io/debian binary
     dest: /etc/apt/sources.list.d/jenkins.list
 
 - name: Install Jenkins packages
