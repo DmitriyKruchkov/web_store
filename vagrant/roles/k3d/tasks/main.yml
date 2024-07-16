@@ -56,11 +56,11 @@
 - name: Download K3d install script
   get_url:
     url: "{{ k3d_install_script_url }}"
-    dest: /opt/k3d/install.sh
+    dest: /opt/k3d_install.sh
     mode: '0755'
 
 - name: Run K3d install script
-  command: /bin/bash /opt/k3d/install.sh
+  command: /bin/bash /opt/k3d_install.sh
 
 - name: Creating K3d cluster
   command: k3d cluster create mycluster --port "80:80@loadbalancer"
