@@ -133,3 +133,33 @@ spec:
               secretKeyRef:
                 name: s3-secrets
                 key: SECRET_KEY
+
+          - name: RABBITMQ_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: RABBITMQ_HOST
+
+          - name: RABBITMQ_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: RABBITMQ_PORT
+
+          - name: RABBITMQ_LOGIN
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secrets
+                key: RABBITMQ_DEFAULT_USER
+
+          - name: RABBITMQ_PASS
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secrets
+                key: RABBITMQ_DEFAULT_PASS
+
+          - name: QUEUE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: rabbitmq-configmap
+                key: QUEUE_NAME

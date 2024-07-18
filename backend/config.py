@@ -41,3 +41,10 @@ S3_CONFIG = {
     "aws_secret_access_key": SECRET_KEY,
     "endpoint_url": f"http://{S3_HOST}:{S3_PORT}"
 }
+
+# RabbitMQ settings
+QUEUE_NAME = os.getenv("QUEUE_NAME", "telegram_queue")
+RABBITMQ_LOGIN = os.getenv("RABBITMQ_LOGIN", "guest")
+RABBITMQ_PASS = os.getenv("RABBITMQ_PASS", "guest")
+RABBITMQ_HOST = os.getenv("RABBITMQ_HOST", "158.160.168.118")
+RABBITMQ_PORT = int(os.getenv("RABBITMQ_PORT", "5672"))

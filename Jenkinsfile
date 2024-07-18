@@ -5,9 +5,11 @@ pipeline {
     dockerAuthImageName = "hkvge777/web_store_auth"
     dockerBackendImageName = "hkvge777/web_store_backend"
     dockerCryptoImageName = "hkvge777/web_store_crypto"
+    dockerAlerterImageName = "hkvge777/web_store_alerter"
     dockerAuthImage = ""
     dockerBackendImage = ""
     dockerCryptoImage = ""
+    dockerAlerterImage = ""
   }
 
   agent any
@@ -25,6 +27,9 @@ pipeline {
             dir('crypto') {
                 dockerCryptoImage = docker.build(dockerCryptoImageName, "-f Dockerfile.crypto .")
             }
+            dir('telegram_alerter') {
+                dockerAlerterImage = docker.build(dockerAlerterImageName, "-f Dockerfile.alerter .")
+            }
         }
       }
     }
@@ -39,6 +44,8 @@ pipeline {
             dockerAuthImage.push("latest")
             dockerBackendImage.push("latest")
             dockerCryptoImage.push("latest")
+            dockerAlerterImage.push("latest")
+
           }
         }
       }

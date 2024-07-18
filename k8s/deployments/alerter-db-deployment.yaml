@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-store-alerter-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-store-alerter-db
+  template:
+    metadata:
+      labels:
+        app: web-store-alerter-db
+    spec:
+      containers:
+        - name: web-store-alerter-db
+          image: postgres:12.19-alpine3.20
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                secretKeyRef:
+                  name: alerter-db-secrets
+                  key: DB_NAME
+
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: alerter-db-secrets
+                  key: DB_USER
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: alerter-db-secrets
+                  key: DB_PASS
+
+          volumeMounts:
+            - mountPath: /var/lib/postgres/data
+              name: db-data
+
+      volumes:
+        - name: db-data
+          persistentVolumeClaim:
+            claimName: alerter-db-pvc

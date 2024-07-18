@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alerter-configmap
+data:
+  DB_HOST: "web-store-alerter-db"
+  DB_PORT: "5432"
+
+  RABBITMQ_HOST: "web-store-rabbitmq"
+  RABBITMQ_PORT: "5672"

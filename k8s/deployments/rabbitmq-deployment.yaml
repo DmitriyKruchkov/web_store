@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-rabbitmq
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-store-rabbitmq
+  template:
+    metadata:
+      labels:
+        app: web-store-rabbitmq
+    spec:
+      containers:
+        - name: web-store-rabbitmq
+          image: rabbitmq:management-alpine
+          ports:
+            - containerPort: 5672
+            - containerPort: 15672
+          env:
+            - name: RABBITMQ_DEFAULT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secrets
+                  key: RABBITMQ_DEFAULT_USER
+
+            - name: RABBITMQ_DEFAULT_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secrets
+                  key: RABBITMQ_DEFAULT_PASS
+
+          volumeMounts:
+            - mountPath: /var/lib/rabbitmq/mnesia
+              name: rabbitmq-data
+
+      volumes:
+        - name: rabbitmq-data
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc
