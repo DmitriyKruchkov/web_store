@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alerter-deployment
+  labels:
+    app: web-store-alerter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-store-alerter
+  template:
+    metadata:
+      labels:
+        app: web-store-alerter
+    spec:
+      containers:
+      - name: web-store-alerter
+        image: hkvge777/web_store_alerter
+        env:
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: alerter-db-secrets
+                key: DB_USER
+
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: alerter-db-secrets
+                key: DB_PASS
+
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: alerter-configmap
+                key:  DB_HOST
+
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: alerter-configmap
+                key: DB_PORT
+
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: alerter-db-secrets
+                key: DB_NAME
+
+          - name: API_TOKEN
+            valueFrom:
+              secretKeyRef:
+                name: alerter-secrets
+                key: API_TOKEN
+
+          - name: RABBITMQ_LOGIN
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secrets
+                key: RABBITMQ_DEFAULT_USER
+
+          - name: RABBITMQ_PASS
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secrets
+                key: RABBITMQ_DEFAULT_PASS
+
+          - name: RABBITMQ_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: alerter-configmap
+                key: RABBITMQ_HOST
+
+          - name: RABBITMQ_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: alerter-configmap
+                key: RABBITMQ_PORT

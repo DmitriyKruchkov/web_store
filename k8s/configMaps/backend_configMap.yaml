@@ -15,6 +15,9 @@ data:
   REDIS_HOST: "web-store-cache"
   REDIS_PORT: "6379"
 
+  RABBITMQ_HOST: "web-store-rabbitmq"
+  RABBITMQ_PORT: "5672"
+
   S3_HOST: "192.168.1.9"
   S3_PORT: "9000"
   S3_BUCKET_NAME: "items"
