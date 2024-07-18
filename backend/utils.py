@@ -2,13 +2,15 @@ import asyncio
 import datetime
 import threading
 
+import aio_pika
 import aiohttp
 import pytz
 from fastapi import UploadFile
 from sqlalchemy import select, not_, and_
 
 from database import SessionLocal
-from config import TIME_INTERVAL, S3_CONFIG, AUTH_HOST, AUTH_PORT, CRYPTO_HOST, CRYPTO_PORT
+from config import TIME_INTERVAL, S3_CONFIG, AUTH_HOST, AUTH_PORT, CRYPTO_HOST, CRYPTO_PORT, RABBITMQ_HOST, \
+    RABBITMQ_PORT, RABBITMQ_LOGIN, RABBITMQ_PASS, QUEUE_NAME
 from core import caching, logger
 from models.DB_model import Product
 from models.S3_model import S3Client
@@ -83,13 +85,13 @@ async def refresh_item(update=False, price=0, owner=''):
                 caching.set("active:owner", str(current_item.owner), ex=TIME_INTERVAL // 2)
                 caching.set("active:last_bid", str(current_item.last_bid), ex=TIME_INTERVAL // 2)
                 answer = {
-                        "active:id": str(current_item.id),
-                        "active:name": str(current_item.name),
-                        "active:img_link": str(current_item.picture_path),
-                        "active:price": str(current_item.current_price),
-                        "active:owner": str(current_item.owner),
-                        "active:last_bid": str(current_item.last_bid)
-                    }
+                    "active:id": str(current_item.id),
+                    "active:name": str(current_item.name),
+                    "active:img_link": str(current_item.picture_path),
+                    "active:price": str(current_item.current_price),
+                    "active:owner": str(current_item.owner),
+                    "active:last_bid": str(current_item.last_bid)
+                }
                 await session.commit()
             return answer
 
@@ -132,3 +134,23 @@ async def add_new_item(name: str, file: UploadFile, price: float):
         async with session.begin():
             session.add(new_product)
             await session.commit()
+
+
+async def send_message_to_rabbitmq(name, price):
+    connection = await aio_pika.connect_robust(
+        host=RABBITMQ_HOST,
+        port=RABBITMQ_PORT,
+        login=RABBITMQ_LOGIN,
+        password=RABBITMQ_PASS
+    )
+    message = f'''Добавлен новый лот!
+                Название: {name}
+                Начальная цена: {price}'''
+
+    async with connection:
+        routing_key = QUEUE_NAME
+        channel = await connection.channel()
+        await channel.default_exchange.publish(
+            aio_pika.Message(body=message.encode()),
+            routing_key=routing_key,
+        )

@@ -3,7 +3,7 @@ import aio_pika
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters.command import Command
 from database import engine, Base
-from config import API_TOKEN, RABBITMQ_HOST, RABBITMQ_PASS, RABBITMQ_PORT, RABBITMQ_LOGIN
+from config import API_TOKEN, RABBITMQ_HOST, RABBITMQ_PASS, RABBITMQ_PORT, RABBITMQ_LOGIN, QUEUE_NAME
 from utils import add_user, get_users
 
 bot = Bot(token=API_TOKEN)
@@ -38,13 +38,12 @@ async def main():
         login=RABBITMQ_LOGIN,
         password=RABBITMQ_PASS
     )
-    queue_name = "telegram_queue"
 
     # Creating channel
     channel = await connection.channel()
 
     # Declaring queue
-    queue = await channel.declare_queue(queue_name)
+    queue = await channel.declare_queue(QUEUE_NAME)
 
     await queue.consume(on_message)
     await dp.start_polling(bot)
