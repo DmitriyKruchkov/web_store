@@ -4,3 +4,5 @@
   roles:
     - jenkins
     - k3d
+    - prometheus
+    - node_exporter
