@@ -7,8 +7,8 @@ locals {
 
 resource "yandex_compute_disk" "web-store-disk" {
   name     = "web-store-disk"
-  type     = "network-ssd"
-  size     = "40"
+  type     = "network-hdd"
+  size     = "30"
   image_id = "fd8in27h07j9pfapcduu"
 }
 
@@ -49,7 +49,7 @@ resource "yandex_compute_instance" "web-store-instance" {
     })
   }
   provisioner "remote-exec" {
-    inline = ["sudo apt update && sudo apt install -y cowsay"]
+    inline = ["sudo apt update"]
 
     connection {
       type        = "ssh"
