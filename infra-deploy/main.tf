@@ -31,8 +31,8 @@ resource "yandex_compute_instance" "web-store-instance" {
     preemptible = true
   }
   resources {
-    cores         = 4
-    memory        = 4
+    cores         = 2
+    memory        = 2
     core_fraction = 20
   }
   boot_disk {
@@ -49,7 +49,7 @@ resource "yandex_compute_instance" "web-store-instance" {
     })
   }
   provisioner "remote-exec" {
-    inline = ["sudo apt update"]
+    inline = ["echo 'Ready to connect!'"]
 
     connection {
       type        = "ssh"
@@ -61,7 +61,7 @@ resource "yandex_compute_instance" "web-store-instance" {
 
   provisioner "local-exec" {
 
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.username} -i '${self.network_interface.0.nat_ip_address},' --private-key ${local.ssh-key-private-file} ${local.ansible-playbook-name}"
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.username} -i '${self.network_interface.0.nat_ip_address},' -e ansible_ssh_pipelining=True --private-key ${local.ssh-key-private-file} ${local.ansible-playbook-name}"
   }
 
 }
