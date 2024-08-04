@@ -61,7 +61,7 @@ resource "yandex_compute_instance" "web-store-instance" {
 
   provisioner "local-exec" {
 
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.username} -i '${self.network_interface.0.nat_ip_address},' -e ansible_ssh_pipelining=True --private-key ${local.ssh-key-private-file} ${local.ansible-playbook-name}"
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${var.username} -i '${self.network_interface.0.nat_ip_address},' --private-key ${local.ssh-key-private-file} ${local.ansible-playbook-name}"
   }
 
 }
