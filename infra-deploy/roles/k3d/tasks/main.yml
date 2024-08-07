@@ -64,5 +64,43 @@
 - name: Run K3d install script
   command: /bin/bash /opt/k3d_install.sh
 
+- name: Download Helm binary
+  get_url:
+    url: "https://get.helm.sh/helm-v{{ helm_version }}-linux-amd64.tar.gz"
+    dest: "/tmp/helm.tar.gz"
+
+- name: Extract Helm binary
+  unarchive:
+    src: "/tmp/helm.tar.gz"
+    dest: "/tmp/"
+    remote_src: yes
+
+- name: Move Helm binary to /usr/local/bin
+  command: "mv /tmp/linux-amd64/helm /usr/local/bin/helm creates=/usr/local/bin/helm"
+
+- name: Remove Helm tarball
+  file:
+    path: "/tmp/helm.tar.gz"
+    state: absent
+
+- name: Remove extracted directory
+  file:
+    path: "/tmp/linux-amd64"
+    state: absent
+
 - name: Creating K3d cluster
-  command: k3d cluster create mycluster --port "80:80@loadbalancer"
+  command: k3d cluster create mycluster --port "80:80@loadbalancer" --port "30080:30080@loadbalancer"
+
+- name: Copy Helm values file to remote host
+  ansible.builtin.copy:
+    src: ../files/values.yaml
+    dest: /tmp/values.yaml
+
+- name: Add Prometheus Helm repository
+  command: helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+
+- name: Update Helm repository
+  command: helm repo update
+
+- name: Install kube-state-metrics using Helm
+  command: helm install kube-state-metrics prometheus-community/kube-state-metrics -f /tmp/values.yaml

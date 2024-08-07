@@ -5,19 +5,19 @@ prometheus_binary_url: "https://github.com/{{ _prometheus_repo }}/releases/downl
                         prometheus-{{ prometheus_version }}.linux-{{ go_arch }}.tar.gz"
 prometheus_checksums_url: "https://github.com/{{ _prometheus_repo }}/releases/download/v{{ prometheus_version }}/sha256sums.txt"
 prometheus_skip_install: false
-
 prometheus_config_dir: /etc/prometheus
 prometheus_db_dir: /var/lib/prometheus
-prometheus_read_only_dirs: []
+prometheus_read_only_dirs: [ ]
 
 prometheus_web_listen_address: "0.0.0.0:9090"
+
 prometheus_web_external_url: ''
 prometheus_metrics_path: "/{{ (prometheus_web_external_url + '/metrics') | regex_replace('^(.*://)?(.*?)/') }}"
 # See https://github.com/prometheus/exporter-toolkit/blob/master/docs/web-configuration.md
 prometheus_web_config:
-  tls_server_config: {}
-  http_server_config: {}
-  basic_auth_users: {}
+  tls_server_config: { }
+  http_server_config: { }
+  basic_auth_users: { }
 
 prometheus_storage_retention: "30d"
 # Available since Prometheus 2.7.0
@@ -28,12 +28,12 @@ prometheus_storage_retention_size: "0"
 # The Agent mode optimizes Prometheus for the remote write use case: https://prometheus.io/blog/2021/11/16/agent/
 prometheus_agent_mode: false
 
-prometheus_config_flags_extra: {}
+prometheus_config_flags_extra: { }
 # prometheus_config_flags_extra:
 #   storage.tsdb.retention: 15d
 #   alertmanager.timeout: 10s
 
-prometheus_alertmanager_config: []
+prometheus_alertmanager_config: [ ]
 # prometheus_alertmanager_config:
 #   - scheme: https
 #     path_prefix: alertmanager/
@@ -44,7 +44,7 @@ prometheus_alertmanager_config: []
 #       - targets: ["127.0.0.1:9093"]
 #     proxy_url: "127.0.0.2"
 
-prometheus_alert_relabel_configs: []
+prometheus_alert_relabel_configs: [ ]
 # prometheus_alert_relabel_configs:
 #   - action: labeldrop
 #     regex: replica
@@ -54,13 +54,13 @@ prometheus_global:
   scrape_timeout: 10s
   evaluation_interval: 15s
 
-prometheus_remote_write: []
+prometheus_remote_write: [ ]
 # prometheus_remote_write:
 #   - url: https://dev.kausal.co/prom/push
 #     basic_auth:
 #       password: FOO
 
-prometheus_remote_read: []
+prometheus_remote_read: [ ]
 # prometheus_remote_read:
 #   - url: https://prometheus.demo.do.prometheus.io:9201/read
 #     basic_auth:
@@ -68,7 +68,7 @@ prometheus_remote_read: []
 
 prometheus_external_labels:
   environment: "{{ ansible_fqdn | default(ansible_host) | default(inventory_hostname) }}"
-
+prometheus_token: ""
 prometheus_targets: {}
 #  node:
 #    - targets:
@@ -77,15 +77,14 @@ prometheus_targets: {}
 #        env: test
 
 prometheus_scrape_configs:
-  - job_name: "prometheus"
-    metrics_path: "{{ prometheus_metrics_path }}"
+  - job_name: 'node-exporter'
     static_configs:
-      - targets:
-          - "{{ ansible_fqdn | default(ansible_host) | default('localhost') }}:9090"
-  - job_name: "node"
-    file_sd_configs:
-      - files:
-          - "{{ prometheus_config_dir }}/file_sd/node.yml"
+      - targets: [ 'localhost:9100' ]
+
+  - job_name: 'kube-state'
+    static_configs:
+      - targets: [ 'localhost:30080' ]
+
 
 # Alternative config file name, searched in ansible templates path.
 prometheus_config_file: 'prometheus.yml.j2'
@@ -102,7 +101,7 @@ prometheus_scrape_config_files:
   - prometheus/targets/*.json
 
 # yamllint disable rule:line-length
-prometheus_alert_rules:  # noqa yaml[line-length]  # noqa line-length
+prometheus_alert_rules: # noqa yaml[line-length]  # noqa line-length
   - alert: Watchdog
     expr: vector(1)
     for: 10m
