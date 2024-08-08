@@ -10,15 +10,9 @@
   pip:
     name: python-jenkins
     executable: pip3
-- name: Get Jenkins crumb
-  uri:
-    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}/crumbIssuer/api/json"
-    method: GET
-    user: "{{ jenkins_admin_username }}"
-    password: "{{ jenkins_admin_password }}"
-    force_basic_auth: yes
-    return_content: yes
-  register: crumb_response
+
+- name: restart jenkins
+  service: name=jenkins state=restarted
 
 - name: Create Jenkins Multibranch Pipeline job
   community.general.jenkins_job:
