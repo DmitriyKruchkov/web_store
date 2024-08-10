@@ -10,7 +10,7 @@ async def add_user(user_id, chat_id):
     )
     async with SessionLocal() as session:
         async with session.begin():
-            stmt = select(User).where(User.user_id == user_id)
+            stmt = select(User).where(str(User.user_id) == str(user_id))
             result = await session.execute(stmt)
             result = result.scalar_one_or_none()
             if not result:
