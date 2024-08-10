@@ -5,8 +5,8 @@ from models.user import User
 
 async def add_user(user_id, chat_id):
     user = User(
-        user_id=user_id,
-        chat_id=chat_id
+        user_id=str(user_id),
+        chat_id=str(chat_id)
     )
     async with SessionLocal() as session:
         async with session.begin():
