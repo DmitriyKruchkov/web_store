@@ -1,0 +1,26 @@
+- name: Install required packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - python3-pip
+    - python3-dev
+
+- name: Install python-jenkins library
+  pip:
+    name: python-jenkins
+    executable: pip3
+
+- name: restart jenkins
+  service: name=jenkins state=restarted
+
+- name: Create Jenkins Multibranch Pipeline job
+  community.general.jenkins_job:
+    config: "{{ lookup('file', 'templates/web_store_pipeline.xml') }}"
+    name: "web_store_pipeline"
+    url: "http://{{ jenkins_hostname }}:{{ jenkins_http_port }}"
+    password: "{{ jenkins_admin_password }}"
+    user: "{{ jenkins_admin_username }}"
+    validate_certs: no
+
+

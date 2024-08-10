@@ -1,0 +1,10 @@
+---
+vault_version: "1.17.2"
+vault_install_prerequisites: [ 'unzip' ]
+vault_user: "vault"
+vault_group: "vault"
+vault_config_path: "/etc/vault.hcl"
+vault_storage_path: "/var/lib/vault/data"
+vault_addr: "http://127.0.0.1:8200"
+unseal_shares: 5
+unseal_threshold: 3

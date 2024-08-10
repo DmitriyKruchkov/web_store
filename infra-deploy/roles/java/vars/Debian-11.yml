@@ -1,0 +1,7 @@
+---
+# JDK version options include:
+#   - java
+#   - openjdk-11-jdk
+__java_packages:
+  - fontconfig
+  - openjdk-17-jre
