@@ -1,0 +1,86 @@
+# databases:
+  alerter-db:
+    name: alerter-db
+    database: microservice1db
+    username: postgres
+    password: postgrespass
+    service:
+      name: alerter-db-service
+      type: ClusterIP
+      port: 5432
+  backend-db:
+    name: backend-db
+    host: "backend-db"
+    database: microservice2db
+    username: postgres
+    password: postgrespass
+    service:
+      name: backend-db-service
+      type: ClusterIP
+      port: 5432
+  auth-db:
+    name: auth-db
+    host: "auth-db"
+    database: tokens
+    username: postgres
+    password: postgrespass
+    service:
+      name: auth-db-service
+      type: ClusterIP
+      port: 5432
+
+# redis-instances:
+backend-redis:
+  name: backend-redis
+  host: "backend-redis"
+  master:
+    service:
+      name: backend-redis-service
+      type: ClusterIP
+      port: 6379
+auth-redis:
+  name: auth-redis
+  host: "auth-redis"
+  database: microservice2db
+  username: user2
+  password: password2
+  master:
+    service:
+      name: auth-redis-service
+      type: ClusterIP
+      port: 6379
+
+rabbitmq:
+  username: user1
+  password: password1
+  queue_name: "telegram_queue"
+  service:
+    name: rabbitmq-service
+    type: ClusterIP
+    port: 5672
+
+s3-data:
+  host: "your-host"
+  port: "443"
+  access_key: "your-access-key"
+  secret_key: "your-secret-key"
+  bucket_name: "items"
+
+telegram_bot_token: "your-bot-token"
+
+auth_secrets:
+  secret_key: "your_secret_key"
+  algorithm: "HS256"
+
+
+apps_settings:
+  auth:
+    host: "web-store-auth"
+    port: "11000"
+    access_token_expire_minutes: "60"
+  crypto:
+    host: "web-store-crypto"
+    port: "5000"
+  backend:
+    time_interval: "10"
+    port: 8000

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: crypto-deployment
+  labels:
+    app: web-store-crypto
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-store-crypto
+  template:
+    metadata:
+      labels:
+        app: web-store-crypto
+    spec:
+      containers:
+      - name: web-store-crypto
+        image: hkvge777/web_store_crypto
+        ports:
+        - containerPort: 5000
+        env:
+          - name: APP_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: crypto-configmap
+                key: APP_HOST
+
+          - name: APP_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: crypto-configmap
+                key: APP_PORT

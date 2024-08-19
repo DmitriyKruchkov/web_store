@@ -1,0 +1,165 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: web-store-backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-store-backend
+  template:
+    metadata:
+      labels:
+        app: web-store-backend
+    spec:
+      containers:
+      - name: web-store-backend
+        image: hkvge777/web_store_backend
+        ports:
+        - containerPort: 8000
+        env:
+          - name: APP_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: APP_HOST
+
+          - name: APP_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: APP_PORT
+
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: backend-db-secrets
+                key: DB_USER
+
+          - name: DB_PASS
+            valueFrom:
+              secretKeyRef:
+                name: backend-db-secrets
+                key: DB_PASS
+
+          - name: DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: DB_HOST
+
+          - name: DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: DB_PORT
+
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: backend-db-secrets
+                key: DB_NAME
+
+          - name: REDIS_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: REDIS_HOST
+
+          - name: REDIS_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: REDIS_PORT
+
+          - name: S3_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: S3_HOST
+
+          - name: S3_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: S3_PORT
+
+          - name: S3_BUCKET_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: S3_BUCKET_NAME
+
+          - name: CRYPTO_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: CRYPTO_HOST
+
+          - name: CRYPTO_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: CRYPTO_PORT
+
+          - name: AUTH_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: AUTH_HOST
+
+          - name: AUTH_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: AUTH_PORT
+
+          - name: TIME_INTERVAL
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: TIME_INTERVAL
+
+          - name: ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: s3-secrets
+                key: ACCESS_KEY
+
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: s3-secrets
+                key: SECRET_KEY
+
+          - name: RABBITMQ_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: RABBITMQ_HOST
+
+          - name: RABBITMQ_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: backend-configmap
+                key: RABBITMQ_PORT
+
+          - name: RABBITMQ_LOGIN
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secrets
+                key: RABBITMQ_DEFAULT_USER
+
+          - name: RABBITMQ_PASS
+            valueFrom:
+              secretKeyRef:
+                name: rabbitmq-secrets
+                key: RABBITMQ_DEFAULT_PASS
+
+          - name: QUEUE_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: rabbitmq-configmap
+                key: QUEUE_NAME

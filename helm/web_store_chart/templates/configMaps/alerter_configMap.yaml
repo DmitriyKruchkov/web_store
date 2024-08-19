@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: alerter-configmap
+data:
+  DB_HOST: {{ .Values.databases.alerter-db.service.name }}
+  DB_PORT: {{ .Values.databases.alerter-db.service.port }}
+
+  RABBITMQ_HOST: {{ .Values.rabbitmq.service.name }}
+  RABBITMQ_PORT: {{ .Values.rabbitmq.service.port }}

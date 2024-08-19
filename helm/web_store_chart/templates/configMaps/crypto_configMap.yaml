@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crypto-configmap
+data:
+  APP_HOST: "0.0.0.0"
+  APP_PORT: {{ .Values.apps_settings.crypto.port }}

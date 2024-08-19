@@ -1,0 +1,34 @@
+apiVersion: v2
+name: web_store_chart
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+dependencies:
+  - name: redis
+    version: "7.4.0"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: auth-redis
+
+  - name: redis
+    version: "7.4.0"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: backend-redis
+
+  - name: postgresql
+    version: "16.4.0"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: auth-db
+
+  - name: postgresql
+    version: "16.4.0"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: backend-db
+
+  - name: postgresql
+    version: "16.4.0"
+    repository: "https://charts.bitnami.com/bitnami"
+    alias: alerter-db
+
+  - name: rabbitmq
+    version: "3.13.6"
+    repository: "https://charts.bitnami.com/bitnami"
