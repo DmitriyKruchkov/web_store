@@ -1,33 +1,32 @@
-# databases:
-  alerter_db:
-    name: alerter_db
-    database: microservice1db
-    username: postgres
-    password: postgrespass
-    service:
-      name: alerter_db-service
-      type: ClusterIP
-      port: 5432
-  backend_db:
-    name: backend_db
-    host: "backend_db"
-    database: microservice2db
-    username: postgres
-    password: postgrespass
-    service:
-      name: backend_db-service
-      type: ClusterIP
-      port: 5432
-  auth_db:
-    name: auth_db
-    host: "auth_db"
-    database: tokens
-    username: postgres
-    password: postgrespass
-    service:
-      name: auth_db-service
-      type: ClusterIP
-      port: 5432
+alerter_db:
+  name: alerter_db
+  database: microservice1db
+  username: postgres
+  password: postgrespass
+  service:
+    name: alerter_db-service
+    type: ClusterIP
+    port: 5432
+backend_db:
+  name: backend_db
+  host: "backend_db"
+  database: microservice2db
+  username: postgres
+  password: postgrespass
+  service:
+    name: backend_db-service
+    type: ClusterIP
+    port: 5432
+auth_db:
+  name: auth_db
+  host: "auth_db"
+  database: tokens
+  username: postgres
+  password: postgrespass
+  service:
+    name: auth_db-service
+    type: ClusterIP
+    port: 5432
 
 # redis-instances:
 backend_redis:
