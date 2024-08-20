@@ -6,7 +6,7 @@ data:
   ACCESS_TOKEN_EXPIRE_MINUTES: {{ .Values.apps_settings.auth.access_token_expire_minutes }}
   APP_HOST: "0.0.0.0"
   APP_PORT: {{ .Values.apps_settings.auth.port }}
-  DB_HOST: {{ .Values.auth-db.service.name }}
-  DB_PORT: {{ .Values.auth-db.service.port }}
-  REDIS_HOST: {{ .Values.auth-redis.master.service.host }}
-  REDIS_PORT: {{ .Values.auth-redis.master.service.port }}
+  DB_HOST: {{ .Values.auth_db.service.name }}
+  DB_PORT: {{ .Values.auth_db.service.port }}
+  REDIS_HOST: {{ .Values.auth_redis.master.service.host }}
+  REDIS_PORT: {{ .Values.auth_redis.master.service.port }}
