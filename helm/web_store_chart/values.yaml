@@ -59,7 +59,7 @@ rabbitmq:
     type: ClusterIP
     port: 5672
 
-s3-data:
+s3_data:
   host: "your-host"
   port: "443"
   access_key: "your-access-key"

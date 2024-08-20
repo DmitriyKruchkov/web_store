@@ -5,30 +5,30 @@ type: application
 version: 0.1.0
 dependencies:
   - name: redis
-    version: "7.4.0"
+    version: "20.0.2"
     repository: "https://charts.bitnami.com/bitnami"
     alias: auth-redis
 
   - name: redis
-    version: "7.4.0"
+    version: "20.0.2"
     repository: "https://charts.bitnami.com/bitnami"
     alias: backend-redis
 
   - name: postgresql
-    version: "16.4.0"
+    version: "15.5.23"
     repository: "https://charts.bitnami.com/bitnami"
     alias: auth-db
 
   - name: postgresql
-    version: "16.4.0"
+    version: "15.5.23"
     repository: "https://charts.bitnami.com/bitnami"
     alias: backend-db
 
   - name: postgresql
-    version: "16.4.0"
+    version: "15.5.23"
     repository: "https://charts.bitnami.com/bitnami"
     alias: alerter-db
 
   - name: rabbitmq
-    version: "3.13.6"
+    version: "14.6.6"
     repository: "https://charts.bitnami.com/bitnami"

@@ -9,18 +9,18 @@ data:
   CRYPTO_HOST: {{ .Values.apps_settings.crypto.host }}
   CRYPTO_PORT: {{ .Values.apps_settings.crypto.port }}
 
-  DB_HOST: {{ .Values.databases.backend-db.service.name }}
-  DB_PORT: {{ .Values.databases.backend-db.service.port }}
+  DB_HOST: {{ .Values.backend-db.service.name }}
+  DB_PORT: {{ .Values.backend-db.service.port }}
 
-  REDIS_HOST: {{ .Values.redis-instances.backend-redis.service.name }}
-  REDIS_PORT: {{ .Values.redis-instances.backend-redis.service.port }}
+  REDIS_HOST: {{ .Values.backend-redis.service.name }}
+  REDIS_PORT: {{ .Values.backend-redis.service.port }}
 
   RABBITMQ_HOST: {{ .Values.rabbitmq.service.name }}
   RABBITMQ_PORT: {{ .Values.rabbitmq.service.port }}
 
-  S3_HOST: {{ .Values.s3-data.host }}
-  S3_PORT: {{ .Values.s3-data.port }}
-  S3_BUCKET_NAME: {{ .Values.s3-data.bucket_name }}
+  S3_HOST: {{ .Values.s3_data.host }}
+  S3_PORT: {{ .Values.s3_data.port }}
+  S3_BUCKET_NAME: {{ .Values.s3_data.bucket_name }}
 
   APP_HOST: "0.0.0.0"
   APP_PORT: {{ .Values.apps_settings.backend.port }}
