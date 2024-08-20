@@ -1,64 +1,64 @@
 alerter_db:
   auth:
-    database: microservice1db
-    username: postgres
-    password: postgrespass
+    database: "microservice1db"
+    username: "postgres"
+    password: "postgrespass"
   service:
-    name: alerter_db-service
-    type: ClusterIP
-    port: 5432
+    name: "alerter_db-service"
+    type: "ClusterIP"
+    port: "5432"
 
 backend_db:
   auth:
-    database: microservice2db
-    username: postgres
-    password: postgrespass
+    database: "microservice2db"
+    username: "postgres"
+    password: "postgrespass"
   primary:
     service:
-      name: backend_db-service
-      type: ClusterIP
-      port: 5432
+      name: "backend_db-service"
+      type: "ClusterIP"
+      port: "5432"
 
 auth_db:
   auth:
-    database: tokens
-    username: postgres
-    password: postgrespass
+    database: "tokens"
+    username: "postgres"
+    password: "postgrespass"
   primary:
     service:
-      name: auth_db-service
-      type: ClusterIP
-      port: 5432
+      name: "auth_db-service"
+      type: "ClusterIP"
+      port: "5432"
 
 # redis-instances:
 backend_redis:
-  architecture: standalone
+  architecture: "standalone"
   service:
-    type: ClusterIP
-    port: 6379
-    name: backend_redis-service
+    type: "ClusterIP"
+    port: "6379"
+    name: "backend_redis-service"
   auth:
-    enabled: false
+    enabled: "false"
       
 auth_redis:
-  architecture: standalone
+  architecture: "standalone"
   service:
-    type: ClusterIP
-    port: 6379
-    name: auth_redis-service
+    type: "ClusterIP"
+    port: "6379"
+    name: "auth_redis-service"
   auth:
-    enabled: false
+    enabled: "false"
 
 rabbitmq:
   auth:
-    username: user1
-    password: password1
+    username: "user1"
+    password: "password1"
   extraPlugins: |
     [rabbitmq_management].
   service:
-    type: ClusterIP
-    port: 5672
-    name: rabbitmq-service
+    type: "ClusterIP"
+    port: "5672"
+    name: "rabbitmq-service"
 #  extraConfiguration: |
 ## Добавление конфигурации для создания очереди при запуске
 #    {rabbit, [
@@ -85,7 +85,7 @@ apps_settings:
     port: "5000"
   backend:
     time_interval: "10"
-    port: 8000
+    port: "8000"
 
 s3_data:
   host: "your-host"
