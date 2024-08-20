@@ -1,72 +1,74 @@
 alerter_db:
-  name: alerter_db
-  database: microservice1db
-  username: postgres
-  password: postgrespass
+  auth:
+    database: microservice1db
+    username: postgres
+    password: postgrespass
   service:
     name: alerter_db-service
     type: ClusterIP
     port: 5432
+
 backend_db:
-  name: backend_db
-  host: "backend_db"
-  database: microservice2db
-  username: postgres
-  password: postgrespass
-  service:
-    name: backend_db-service
-    type: ClusterIP
-    port: 5432
+  auth:
+    database: microservice2db
+    username: postgres
+    password: postgrespass
+  primary:
+    service:
+      name: backend_db-service
+      type: ClusterIP
+      port: 5432
+
 auth_db:
-  name: auth_db
-  host: "auth_db"
-  database: tokens
-  username: postgres
-  password: postgrespass
-  service:
-    name: auth_db-service
-    type: ClusterIP
-    port: 5432
+  auth:
+    database: tokens
+    username: postgres
+    password: postgrespass
+  primary:
+    service:
+      name: auth_db-service
+      type: ClusterIP
+      port: 5432
 
 # redis-instances:
 backend_redis:
-  name: backend_redis
-  host: "backend_redis"
-  master:
-    service:
-      name: backend_redis-service
-      type: ClusterIP
-      port: 6379
+  architecture: standalone
+  service:
+    type: ClusterIP
+    port: 6379
+    name: backend_redis-service
+  auth:
+    enabled: false
       
 auth_redis:
-  name: auth_redis
-  host: "auth_redis"
-  database: microservice2db
-  username: user2
-  password: password2
-  master:
-    service:
-      name: auth_redis-service
-      type: ClusterIP
-      port: 6379
+  architecture: standalone
+  service:
+    type: ClusterIP
+    port: 6379
+    name: auth_redis-service
+  auth:
+    enabled: false
 
 rabbitmq:
-  username: user1
-  password: password1
-  queue_name: "telegram_queue"
+  auth:
+    username: user1
+    password: password1
+  extraPlugins: |
+    [rabbitmq_management].
   service:
-    name: rabbitmq-service
     type: ClusterIP
     port: 5672
-
-s3_data:
-  host: "your-host"
-  port: "443"
-  access_key: "your-access-key"
-  secret_key: "your-secret-key"
-  bucket_name: "items"
-
-telegram_bot_token: "your-bot-token"
+    name: rabbitmq-service
+#  extraConfiguration: |
+## Добавление конфигурации для создания очереди при запуске
+#    {rabbit, [
+#      {loopback_users, []},  # Позволяет использовать веб-интерфейс
+#      {default_user, <<"user1">>},
+#      {default_pass, <<"password1">>},
+#      {default_vhost, <<"/">>},
+#      {default_permissions, [<<"">>, <<">>]}.
+#      {default_queue, <<"telegram_queue">>}
+#    ]}.
 
 auth_secrets:
   secret_key: "your_secret_key"
@@ -84,3 +86,12 @@ apps_settings:
   backend:
     time_interval: "10"
     port: 8000
+
+s3_data:
+  host: "your-host"
+  port: "443"
+  access_key: "your-access-key"
+  secret_key: "your-secret-key"
+  bucket_name: "items"
+
+telegram_bot_token: "your-bot-token"
