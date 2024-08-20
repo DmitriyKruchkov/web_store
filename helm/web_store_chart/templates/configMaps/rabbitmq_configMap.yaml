@@ -3,4 +3,4 @@ kind: ConfigMap
 metadata:
   name: rabbitmq-configmap
 data:
-  QUEUE_NAME: {{ .Values.rabbitmq.queue_name }}
+  QUEUE_NAME: "{{ .Values.rabbitmq.queue_name }}"
