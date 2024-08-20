@@ -3,10 +3,11 @@ alerter_db:
     database: "microservice1db"
     username: "postgres"
     password: "postgrespass"
-  service:
-    name: "alerter_db-service"
-    type: "ClusterIP"
-    port: "5432"
+  primary:
+    service:
+      name: "alerter_db-service"
+      type: "ClusterIP"
+      port: "5432"
 
 backend_db:
   auth:
