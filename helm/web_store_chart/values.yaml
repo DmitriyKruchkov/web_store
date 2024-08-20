@@ -5,7 +5,7 @@ alerter_db:
     password: "postgrespass"
   primary:
     service:
-      name: "alerter_db-service"
+      name: "alerter-db-service"
       type: "ClusterIP"
       port: "5432"
 
@@ -16,7 +16,7 @@ backend_db:
     password: "postgrespass"
   primary:
     service:
-      name: "backend_db-service"
+      name: "backend-db-service"
       type: "ClusterIP"
       port: "5432"
 
@@ -27,7 +27,7 @@ auth_db:
     password: "postgrespass"
   primary:
     service:
-      name: "auth_db-service"
+      name: "auth-db-service"
       type: "ClusterIP"
       port: "5432"
 
@@ -37,7 +37,7 @@ backend_redis:
   service:
     type: "ClusterIP"
     port: "6379"
-    name: "backend_redis-service"
+    name: "backend-redis-service"
   auth:
     enabled: "false"
       
@@ -46,7 +46,7 @@ auth_redis:
   service:
     type: "ClusterIP"
     port: "6379"
-    name: "auth_redis-service"
+    name: "auth-redis-service"
   auth:
     enabled: "false"
 
