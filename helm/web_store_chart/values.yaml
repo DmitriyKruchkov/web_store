@@ -1,3 +1,7 @@
+global:
+  postgresqlServiceName: "postgresql"
+
+
 postgresql:
   auth:
     database: "microservice1db"
@@ -5,7 +9,7 @@ postgresql:
     password: "postgrespass"
   primary:
     service:
-      name: "postgresql"
+      name: "{{ .Values.global.postgresqlServiceName }}"
       type: "ClusterIP"
       port: "5432"
 
