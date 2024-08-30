@@ -9,11 +9,11 @@ data:
   CRYPTO_HOST: "{{ .Values.apps_settings.crypto.host }}"
   CRYPTO_PORT: "{{ .Values.apps_settings.crypto.port }}"
 
-  DB_HOST: "{{ .Values.backend_db.primary.service.name }}"
-  DB_PORT: "{{ .Values.backend_db.primary.service.port }}"
+  DB_HOST: "{{ .Values.postgresql.primary.service.name }}"
+  DB_PORT: "{{ .Values.postgresql.primary.service.port }}"
 
-  REDIS_HOST: "{{ .Values.backend_redis.service.name }}"
-  REDIS_PORT: "{{ .Values.backend_redis.service.port }}"
+  REDIS_HOST: "{{ .Values.redis.service.name }}"
+  REDIS_PORT: "{{ .Values.redis.service.port }}"
 
   RABBITMQ_HOST: "{{ .Values.rabbitmq.service.name }}"
   RABBITMQ_PORT: "{{ .Values.rabbitmq.service.port }}"
