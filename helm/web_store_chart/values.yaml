@@ -54,12 +54,14 @@ rabbitmq:
   auth:
     username: "user1"
     password: "password1"
-  extraPlugins: |
-    [rabbitmq_management].
+
   service:
     type: "ClusterIP"
     port: "5672"
     name: "rabbitmq-service"
+  clustering:
+    enabled: false
+  
 #  extraConfiguration: |
 ## Добавление конфигурации для создания очереди при запуске
 #    {rabbit, [
@@ -70,6 +72,8 @@ rabbitmq:
 #      {default_permissions, [<<"">>, <<">>]}.
 #      {default_queue, <<"telegram_queue">>}
 #    ]}.
+#  extraPlugins: |
+#    [rabbitmq_management].
 
 auth_secrets:
   secret_key: "your_secret_key"
