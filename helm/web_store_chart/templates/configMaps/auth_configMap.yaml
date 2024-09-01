@@ -8,5 +8,5 @@ data:
   APP_PORT: "{{ .Values.apps_settings.auth.port }}"
   DB_HOST: "{{ .Release.Name }}-{{ .Values.postgresql.primary.service.name }}"
   DB_PORT: "{{ .Values.postgresql.primary.service.port }}"
-  REDIS_HOST: "{{ .Release.Name }}-{{ .Values.redis.service.host }}"
+  REDIS_HOST: "{{ .Release.Name }}-{{ .Values.redis.service.name }}-master"
   REDIS_PORT: "{{ .Values.redis.service.port }}"

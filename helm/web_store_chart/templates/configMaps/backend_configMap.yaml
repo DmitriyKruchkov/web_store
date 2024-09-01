@@ -12,7 +12,7 @@ data:
   DB_HOST: "{{ .Release.Name }}-{{ .Values.postgresql.primary.service.name }}"
   DB_PORT: "{{ .Values.postgresql.primary.service.port }}"
 
-  REDIS_HOST: "{{ .Release.Name }}-{{ .Values.redis.service.name }}"
+  REDIS_HOST: "{{ .Release.Name }}-{{ .Values.redis.service.name }}-master"
   REDIS_PORT: "{{ .Values.redis.service.port }}"
 
   RABBITMQ_HOST: "{{ .Release.Name }}-{{ .Values.rabbitmq.service.name }}"
