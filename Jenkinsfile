@@ -54,12 +54,13 @@ pipeline {
     stage('Deploying containers to Kubernetes') {
             steps {
                 script {
-                    def manifestDir = 'k8s'
-                    def manifests = findFiles(glob: "${manifestDir}/**/*.yaml")
-                    def manifestPaths = manifests.collect { it.path }
-                    manifestPaths.each { manifest ->
-                        sh "kubectl apply -f ${manifest}"
-                    }
+                    sh "helm upgrade <release_name> <chart_path> \
+                          --set s3_data.host=$S3_HOST \
+                          --set s3_data.port=$S3_PORT \
+                          --set s3_data.access_key=$S3_ACCESS_KEY \
+                          --set s3_data.secret_key=$S3_SECRET_KEY \
+                          --set s3_data.bucket_name=$S3_BUCKET \
+                          --set telegram_bot_token=$TELEGRAM_BOT_TOKEN"
                 }
             }
         }
