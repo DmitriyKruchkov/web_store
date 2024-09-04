@@ -54,7 +54,7 @@ pipeline {
     stage('Deploying containers to Kubernetes') {
             steps {
                 script {
-                    sh "helm upgrade <release_name> <chart_path> \
+                    sh "helm upgrade --install app helm/web_store_chart \
                           --set s3_data.host=$S3_HOST \
                           --set s3_data.port=$S3_PORT \
                           --set s3_data.access_key=$S3_ACCESS_KEY \
