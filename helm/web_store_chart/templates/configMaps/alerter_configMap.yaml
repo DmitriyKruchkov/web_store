@@ -3,8 +3,8 @@ kind: ConfigMap
 metadata:
   name: alerter-configmap
 data:
-  DB_HOST: "{{ .Values.alerter_db.primary.service.name }}"
-  DB_PORT: "{{ .Values.alerter_db.primary.service.port }}"
+  DB_HOST: "{{ .Release.Name }}-{{ .Values.postgresql.primary.service.name }}"
+  DB_PORT: "{{ .Values.postgresql.primary.service.port }}"
 
-  RABBITMQ_HOST: "{{ .Values.rabbitmq.service.name }}"
+  RABBITMQ_HOST: "{{ .Release.Name }}-{{ .Values.rabbitmq.service.name }}"
   RABBITMQ_PORT: "{{ .Values.rabbitmq.service.port }}"

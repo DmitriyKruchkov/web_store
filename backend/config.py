@@ -39,7 +39,7 @@ origins = [
 S3_CONFIG = {
     "aws_access_key_id": ACCESS_KEY,
     "aws_secret_access_key": SECRET_KEY,
-    "endpoint_url": f"http://{S3_HOST}:{S3_PORT}"
+    "endpoint_url": f"{S3_HOST}:{S3_PORT}"
 }
 
 # RabbitMQ settings

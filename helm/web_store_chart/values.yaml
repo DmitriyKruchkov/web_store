@@ -1,54 +1,25 @@
-alerter_db:
+postgresql:
   auth:
     database: "microservice1db"
     username: "postgres"
     password: "postgrespass"
   primary:
     service:
-      name: "alerter-db-service"
+      name: "postgresql"
       type: "ClusterIP"
       port: "5432"
 
-backend_db:
-  auth:
-    database: "microservice2db"
-    username: "postgres"
-    password: "postgrespass"
-  primary:
-    service:
-      name: "backend-db-service"
-      type: "ClusterIP"
-      port: "5432"
-
-auth_db:
-  auth:
-    database: "tokens"
-    username: "postgres"
-    password: "postgrespass"
-  primary:
-    service:
-      name: "auth-db-service"
-      type: "ClusterIP"
-      port: "5432"
 
 # redis-instances:
-backend_redis:
+redis:
   architecture: "standalone"
   service:
     type: "ClusterIP"
     port: "6379"
-    name: "backend-redis-service"
+    name: "redis"
   auth:
-    enabled: "false"
-      
-auth_redis:
-  architecture: "standalone"
-  service:
-    type: "ClusterIP"
-    port: "6379"
-    name: "auth-redis-service"
-  auth:
-    enabled: "false"
+    enabled: false
+
 
 rabbitmq:
   auth:
@@ -58,22 +29,9 @@ rabbitmq:
   service:
     type: "ClusterIP"
     port: "5672"
-    name: "rabbitmq-service"
+    name: "rabbitmq"
   clustering:
     enabled: false
-  
-#  extraConfiguration: |
-## Добавление конфигурации для создания очереди при запуске
-#    {rabbit, [
-#      {loopback_users, []},  # Позволяет использовать веб-интерфейс
-#      {default_user, <<"user1">>},
-#      {default_pass, <<"password1">>},
-#      {default_vhost, <<"/">>},
-#      {default_permissions, [<<"">>, <<">>]}.
-#      {default_queue, <<"telegram_queue">>}
-#    ]}.
-#  extraPlugins: |
-#    [rabbitmq_management].
 
 auth_secrets:
   secret_key: "your_secret_key"
