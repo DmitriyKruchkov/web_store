@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backend-configmap
+data:
+  TIME_INTERVAL: "{{ .Values.apps_settings.backend.time_interval }}"
+  AUTH_HOST: "{{ .Values.apps_settings.auth.host }}"
+  AUTH_PORT: "{{ .Values.apps_settings.auth.port }}"
+  CRYPTO_HOST: "{{ .Values.apps_settings.crypto.host }}"
+  CRYPTO_PORT: "{{ .Values.apps_settings.crypto.port }}"
+
+  DB_HOST: "{{ .Release.Name }}-{{ .Values.postgresql.primary.service.name }}"
+  DB_PORT: "{{ .Values.postgresql.primary.service.port }}"
+
+  REDIS_HOST: "{{ .Release.Name }}-{{ .Values.redis.service.name }}-master"
+  REDIS_PORT: "{{ .Values.redis.service.port }}"
+
+  RABBITMQ_HOST: "{{ .Release.Name }}-{{ .Values.rabbitmq.service.name }}"
+  RABBITMQ_PORT: "{{ .Values.rabbitmq.service.port }}"
+
+  S3_HOST: "{{ .Values.s3_data.host }}"
+  S3_PORT: "{{ .Values.s3_data.port }}"
+  S3_BUCKET_NAME: "{{ .Values.s3_data.bucket_name }}"
+
+  APP_HOST: "0.0.0.0"
+  APP_PORT: "{{ .Values.apps_settings.backend.port }}"

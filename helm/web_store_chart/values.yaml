@@ -1,0 +1,60 @@
+postgresql:
+  auth:
+    database: "microservice1db"
+    username: "postgres"
+    password: "postgrespass"
+  primary:
+    service:
+      name: "postgresql"
+      type: "ClusterIP"
+      port: "5432"
+
+
+# redis-instances:
+redis:
+  architecture: "standalone"
+  service:
+    type: "ClusterIP"
+    port: "6379"
+    name: "redis"
+  auth:
+    enabled: false
+
+
+rabbitmq:
+  auth:
+    username: "user1"
+    password: "password1"
+
+  service:
+    type: "ClusterIP"
+    port: "5672"
+    name: "rabbitmq"
+  clustering:
+    enabled: false
+
+auth_secrets:
+  secret_key: "your_secret_key"
+  algorithm: "HS256"
+
+
+apps_settings:
+  auth:
+    host: "web-store-auth"
+    port: "11000"
+    access_token_expire_minutes: "60"
+  crypto:
+    host: "web-store-crypto"
+    port: "5000"
+  backend:
+    time_interval: "10"
+    port: "8000"
+
+s3_data:
+  host: "your-host"
+  port: "443"
+  access_key: "your-access-key"
+  secret_key: "your-secret-key"
+  bucket_name: "items"
+
+telegram_bot_token: "your-bot-token"

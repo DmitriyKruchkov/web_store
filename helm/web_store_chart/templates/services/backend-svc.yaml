@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-store-backend
+spec:
+  selector:
+    app: web-store-backend
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000

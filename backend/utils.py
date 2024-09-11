@@ -10,7 +10,7 @@ from sqlalchemy import select, not_, and_
 
 from database import SessionLocal
 from config import TIME_INTERVAL, S3_CONFIG, AUTH_HOST, AUTH_PORT, CRYPTO_HOST, CRYPTO_PORT, RABBITMQ_HOST, \
-    RABBITMQ_PORT, RABBITMQ_LOGIN, RABBITMQ_PASS, QUEUE_NAME
+    RABBITMQ_PORT, RABBITMQ_LOGIN, RABBITMQ_PASS, QUEUE_NAME, S3_BUCKET_NAME
 from core import caching, logger
 from models.DB_model import Product
 from models.S3_model import S3Client
@@ -121,7 +121,7 @@ async def set_price_and_owner_to_active(id, price, owner):
 
 
 async def add_new_item(name: str, file: UploadFile, price: float):
-    product_link = await s3_client.upload_file(file, "lots")
+    product_link = await s3_client.upload_file(file, S3_BUCKET_NAME)
     moscow_tz = pytz.timezone('Europe/Moscow')
     new_product = Product(name=name,
                           picture_path=product_link,

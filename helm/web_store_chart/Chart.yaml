@@ -1,0 +1,17 @@
+apiVersion: v2
+name: web_store_chart
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+dependencies:
+  - name: redis
+    version: "20.0.2"
+    repository: "https://charts.bitnami.com/bitnami"
+
+  - name: postgresql
+    version: "15.5.23"
+    repository: "https://charts.bitnami.com/bitnami"
+
+  - name: rabbitmq
+    version: "14.6.6"
+    repository: "https://charts.bitnami.com/bitnami"
