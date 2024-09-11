@@ -7,6 +7,8 @@ Terraform создает ВМ, балансировщики и S3, а Ansible у
 Prometheus собирает метрики от Node_exporter и kube_state_metrics для визуализации в Grafana.
 Для отправки сообщений в архитектуре имеется RabbitMQ и микросервис забирающий из него сообщения и отправляющий рассылку о новых лотах через Telegram бота.
 
+**Технологии:** Terraform, Ansible, Prometheus, Grafana, Kubernetes, Helm, Jenkins, Redis, Docker, S3, PostgreSQL, Python, FastAPI, Yandex Cloud, Traefik.
+
 <b>Инфраструктурная схема проекта:</b>
 <img src="readme-pics/1.png"/>
 
@@ -22,5 +24,48 @@ Prometheus собирает метрики от Node_exporter и kube_state_metr
 <b>Архитектура приложения в кластере Kubernetes:</b>
 <img src="readme-pics/2.png"/>
 
-Описание 
-Технологии: Terraform, Ansible, Prometheus, Grafana, Kubernetes, Helm, Jenkins, Redis, Docker, S3, PostgreSQL, Python.
+Описание элементов кластера Kubernetes:
+ - **Backend service.**
+   - Микросервис, отвечающий за взаимодействие с пользователем. Выдает веб страницу, подключает пользователя по WebSocket. Подключается к кластеру Redis, кластеру PostgreSQL, отправляет сообщения в RabbitMQ и хранит фото лотов в S3.<br/><br/>
+ - **Auth service.**
+   - Микросервис отвечающий за авторизацию/регистрацию пользователей. Подключается к кластеру Redis и кластеру PostgreSQL.<br/><br/>
+ - **Crypto service.**
+   - Микросервис, отвечающий за проверку настоящего баланса криптокошелька у пользователя. Подключается к одному из узлов децентрализованной сети Ethereum.<br/><br/>
+ - **RabbitMQ от Bitnami.**
+   - Передает асинхронные сообщения от Backend service в Telegram_Alerter. Возможно добавление и других способов рассылки.<br/><br/>
+ - **Высокодоступный кластер Redis от Bitnami.**
+   - Redis с включенной репликацией.<br/><br/>
+ - **Высокодоступный кластер PostgreSQL от Bitnami.**
+   - PostgreSQL с включенной репликацией. Общается с сервисами асинхронно.<br/><br/>
+ - **Высокодоступный кластер PostgreSQL от Bitnami.**
+   - PostgreSQL с включенной репликацией. Общается с сервисами асинхронно.<br/><br/>
+ -  **Traefik.**
+    - Балансирует нагрузку на Backend service.<br/><br/>
+ - **Telegram_alerter service.**
+   - Микросервис, отвечающий за рассылку о новых лотах всем, кто разрешил Telegram боту писать себе сообщения. Написан на aiogram.
+    
+## Скриншоты работы приложения:
+
+### Страница авторизации.
+<img src="readme-pics/3.jpg">
+
+### Страница регистрации.
+<img src="readme-pics/4.jpg">
+
+### Отсутствие лотов для аукциона.
+<img src="readme-pics/5.jpg">
+
+### Страница добавления лота.
+<img src="readme-pics/6.jpg">
+
+### Процесс аукциона (Добавление к сумме в процентном отношении).
+<img src="readme-pics/7.jpg">
+
+### Рассылка от Telegram бота о новых лотах.
+<img src="readme-pics/8.jpg">
+
+## Планы развития проекта:
+
+   - **Добавление Hashicorp Vault в архитектуру для удобной работы с секретами.**
+   - **Развертывание кластера тестнета вместо crypto service и работа с ним.**
+   - **Интеграция с Cryptomus или аналогами**
