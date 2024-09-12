@@ -6,8 +6,8 @@ Terraform создает ВМ, балансировщики и S3, а Ansible у
 Приложение находится в Kubernetes кластере, Jenkins осуществляет CI/CD приложения, обновления приложения происходят через Helm стратегией rolling update для Deployments.
 Prometheus собирает метрики от Node_exporter и kube_state_metrics для визуализации в Grafana.
 Для отправки сообщений в архитектуре имеется RabbitMQ и микросервис забирающий из него сообщения и отправляющий рассылку о новых лотах через Telegram бота.
-<br>
-**Технологии:** Terraform, Ansible, Prometheus, Grafana, Kubernetes, Helm, Jenkins, Redis, Docker, S3, PostgreSQL, Python, FastAPI, Yandex Cloud, Traefik.
+<br/><br/>
+Технологии: Terraform, Ansible, Prometheus, Grafana, Kubernetes, Helm, Jenkins, Redis, Docker, S3, PostgreSQL, Python, FastAPI, Yandex Cloud, Traefik.<br/><br/>
 
 <b>Инфраструктурная схема проекта:</b>
 <img src="readme-pics/1.png"/>
